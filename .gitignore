@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+!/.idea/
+__pycache__/aboutdata.cpython-39.pyc
+!/users.sqlite3
+authuser.sqlite3
