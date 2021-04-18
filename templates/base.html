@@ -1,11 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Dungeon Ranker</title>
+    <title>dungeon ranker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/icons/favicon-32x32">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/icons/favicon-16x16.png">
+    <script src="https://kit.fontawesome.com/a8bf0a2920.js" crossorigin="anonymous"></script>
+
+    <style>
+
+        body {
+            background-color:#2d2d2d;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>hi</h1>
+    <nav class="nav navbar navbar-expand-md" style="position:fixed;min-width:100%;overflow:hidden;background-color: #444444;">
+        <div class="mx-auto order-0" style="padding-top:0px">
+            <a class="navbarTitle navbar-brand mx-auto py-0" href="home">
+                <img style="margin-right:10px" src="/static/images/s+.png" width="8%" height="8%" class="d-inline-block align-top" alt="">
+                <span class="navbarTitle">dungeon ranker</span>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" >
+            <ul style="list-style:none;" class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="navbarLink nav-link py-0" href="home">ranker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="navbarLink nav-link py-0" href="puzzles">puzzles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="navbarLink nav-link py-0" href="about">about</a>
+                </li>
+            </ul>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+
+
+<div style="padding-top:8%"></div>
 
 {% block index %}
 {% endblock %}

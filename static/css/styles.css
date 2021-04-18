@@ -1,0 +1,75 @@
+.navbarTitle {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: bold;
+    font-size:1.5em;
+    margin-top:5px;
+    color: white;
+
+}
+
+.navbarLink {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: bold;
+    font-size:1.5em;
+    margin-top:10px;
+    color: white;
+    margin-right: 20px;
+
+}
+
+a:link, a:visited {
+    color: white;
+    text-shadow: none;
+}
+
+a:hover, a:active {
+    color: white;
+    text-decoration: none;
+}
+
+.searchBar {
+    border:none;
+    text-indent: 10px;
+}
+
+.searchBtn {
+    background: #fbee4e;
+    border:none;
+    width: 80px;
+}
+
+.scoreBox {
+    width: 800px;
+    height: 550px;
+    background-color: #444444;
+}
+
+.playerName {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: 900;
+    font-size:3em;
+    color: white;
+}
+
+.scoreBoxTitle {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: bold;
+    font-size:1.3em;
+    color: white;
+    margin-bottom:0px;
+    margin-top:0px;
+}
+
+.scoreBoxText {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: normal;
+    font-size:1em;
+    color: white;
+    margin-bottom:0px;
+    margin-top:0px;
+}
