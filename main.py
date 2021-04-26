@@ -12,5 +12,9 @@ def home():
 def about():
     return render_template("about.html", groupdatalist=aboutdata.groupdata())
 
+@app.route("/testapi")
+def testapi():
+    return render_template("testapi.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
