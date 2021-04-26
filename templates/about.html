@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block about %}
+
+<center><h1 class="pageTitle">meet the team</h1></center>
+
+<center><div class="row justify-content-around" style="width:40%;margin-top:50px">
+    {% for data in groupdatalist: %}
+    {% set name = data["name"] %}
+    {% set ign = data["ign"] %}
+    {% set color = data["color"] %}
+    {% set firstname = data["firstname"] %}
+    {% set social1 = data["social1"] %}
+    {% set social2 = data["social2"] %}
+
+    <div class="row justify-content-around" style="width:260px; background-color:#444444; padding-top:30px;">
+        <div>
+            <img src="static/images/pixel{{firstname}}.png" width="200px" height="200px">
+            <p style="margin-top:10px" class="socialName" >{{name}}</p>
+            <p style="margin-top:2px" class="pageText" >{{ign}}</p>
+            <div style="width:50%; margin-top:20px;" class="row justify-content-around">
+                <p><a target="_blank" href="{{social1}}"><i style="color:{{color}};font-size:2em" class="fa fa-github"></i></a></p>
+                <p><a target="_blank" href="{{social2}}"><i style="color:{{color}};font-size:2em" class="fa fa-instagram"></i></a></p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div></center>
+
+{% endblock %}

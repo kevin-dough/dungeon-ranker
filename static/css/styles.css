@@ -19,6 +19,31 @@
 
 }
 
+.pageTitle {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: 900;
+    font-size:3em;
+    color: white;
+}
+
+.pageText {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: normal;
+    font-size:1em;
+    color: white;
+    line-height: 0;
+}
+
+.socialName {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-size:1.2em;
+    color: white;
+}
+
 a:link, a:visited {
     color: white;
     text-shadow: none;
