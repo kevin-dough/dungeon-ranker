@@ -3,10 +3,14 @@ import aboutdata
 
 app = Flask(__name__)
 
-@app.route("/home")
-@app.route("/")
+@app.route('/home', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template("index.html")
+    if request.method=='POST':
+        form = request.form
+        username = (form['username'])
+        userinfo = {"username": username}
+    return render_template("index.html", data=userinfo)
 
 @app.route("/about")
 def about():
