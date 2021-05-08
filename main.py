@@ -10,19 +10,19 @@ app = Flask(__name__)
 
 
 def home():
+    global username, profilename
+    username = "username"
+    profilename = "profile"
     if request.method=='POST':
-        global username, profilename
         username = request.form.get('username')
         profilename = request.form.get('cute_name')
         print(username)
         print(profilename)
-        data = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+        data = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profilename}").json()
         print(data)
-        data1 = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profilename}").json()
-        print(data1)
         showData()
         return render_template("index.html", username=username, profilename=profilename)
-    return render_template("index.html")
+    return render_template("index.html", username=username, profilename=profilename)
 
 def showData():
     print("Hi i am " + username)
