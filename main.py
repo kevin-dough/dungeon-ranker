@@ -11,8 +11,7 @@ app = Flask(__name__)
 
 def home():
     if request.method=='POST':
-        global username
-        global profilename
+        global username, profilename
         username = request.form.get('username')
         profilename = request.form.get('cute_name')
         print(username)
@@ -21,8 +20,13 @@ def home():
         print(data)
         data1 = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profilename}").json()
         print(data1)
+        showData()
         return render_template("index.html", username=username, profilename=profilename)
     return render_template("index.html")
+
+def showData():
+    print("Hi i am " + username)
+    #put a buncha stuff there cuz yea and store all the values from the json data in variables here
 
 @app.route("/about")
 def about():
