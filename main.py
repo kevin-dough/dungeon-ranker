@@ -41,8 +41,8 @@ def home():
                 mins.append(fmin)
                 secs.append(fsec)
             except:
-                mins.append("N/A")
-                secs.append("N/A")
+                mins.append("?")
+                secs.append("?")
 
             try:
                 fcompletions = skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["tier_completions"]
