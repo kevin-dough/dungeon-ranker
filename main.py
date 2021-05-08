@@ -59,7 +59,22 @@ def home():
             secretsscore = 150
             bonus = math.floor(temp/5000)
         else:
-            secretsscore = (secrets/12000)*150
+            secretsscore = math.floor((secrets/12000)*150)
+
+        total = catalvlscore + secretsscore + bonus
+
+        if total <= 99:
+            scoreimage = "d"
+        elif total in range(100, 160):
+            scoreimage = "c"
+        elif total in range(160, 230):
+            scoreimage = "b"
+        elif total in range(230, 270):
+            scoreimage = "a"
+        elif total in range(270, 300):
+            scoreimage = "s"
+        elif total >= 300:
+            scoreimage = "s+"
 
         return render_template(
             "index.html",
@@ -70,6 +85,11 @@ def home():
             secrets=secrets,
             weight=weight,
 
+            secretsscore = secretsscore,
+            bonus=bonus,
+            catalvlscore=catalvlscore,
+            total=total,
+            scoreimage=scoreimage,
 
             f1min=mins[0],
             f1sec=secs[0],
