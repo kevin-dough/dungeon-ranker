@@ -17,18 +17,18 @@ def home():
     if request.method=='POST':
         username = request.form.get('username')
         profilename = request.form.get('cute_name')
-        print(username)
-        print(profilename)
         mcdata = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}").json()
-        #print(mcdata)
         uuid = mcdata["id"]
         skycryptdata = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profilename}").json()
-        #print(skycryptdata)
-        showData()
+
 
         catalvl = skycryptdata["dungeons"]["catacombs"]["level"]["level"]
         secrets = skycryptdata["dungeons"]["secrets_found"]
-        weight = round((skycryptdata["dungeons"]["dungeonsWeight"]), 2)
+        try:
+            weight = round((skycryptdata["dungeons"]["dungeonsWeight"]), 2)
+        except:
+            weight = "N/A"
+
         floors = [1, 2, 3, 4, 5, 6, 7]
         mins = []
         secs = []
@@ -51,6 +51,15 @@ def home():
                 completions.append("N/A")
 
 
+        bonus = 0
+        catalvlscore = math.floor((catalvl/50)*150)
+
+        if secrets>=12000:
+            temp = secrets-12000
+            secretsscore = 150
+            bonus = math.floor(temp/5000)
+        else:
+            secretsscore = (secrets/12000)*150
 
         return render_template(
             "index.html",
@@ -92,11 +101,6 @@ def home():
 
         )
     return render_template("index.html", username=username, profilename=profilename, uuid=uuid)
-
-def showData():
-    print("Hi i am " + username)
-    uuid = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}").json()
-    #put a buncha stuff there cuz yea and store all the values from the json data in variables here
 
 @app.route("/about")
 def about():
