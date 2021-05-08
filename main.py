@@ -38,14 +38,18 @@ def home():
                 ftime = (skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s_plus"])/1000
                 fmin = math.floor(ftime/60)
                 fsec = math.ceil(ftime - 60*fmin)
-                fcompletions = skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["tier_completions"]
                 mins.append(fmin)
                 secs.append(fsec)
-                completions.append(fcompletions)
             except:
                 mins.append("N/A")
                 secs.append("N/A")
+
+            try:
+                fcompletions = skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["tier_completions"]
+                completions.append(fcompletions)
+            except:
                 completions.append("N/A")
+
 
 
         return render_template(
