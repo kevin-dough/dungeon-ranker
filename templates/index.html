@@ -16,58 +16,58 @@
 <div class="row" style="overflow:hidden;max-width:100%">
     <div style="margin-left:80px" class="scoreBox row justify-content-center">
         <div style="width:40%;padding-top:80px"><center>
-            <img style="padding-top:25px" src="https://crafatar.com/renders/body/d3bfd3ff328f482c8d3e1f90a22e94db?overlay" width="50%" height="100%">
+            <img style="padding-top:25px" src="https://crafatar.com/renders/body/{{uuid}}?overlay" width="50%" height="100%">
         </center>
         </div>
         <div style="width:60%;padding-left:50px">
             <div>
-                <p style="padding-top:40px" class="scoreBoxTitle">catacombs: &nbsp;<span class="scoreBoxText">29</span></p>
-                <p class="scoreBoxTitle">secrets: &nbsp;<span class="scoreBoxText">7098</span></p>
-                <p class="scoreBoxTitle">weight: &nbsp;<span class="scoreBoxText">1113.71</span></p>
+                <p style="padding-top:40px" class="scoreBoxTitle">catacombs: &nbsp;<span class="scoreBoxText">{{catalvl}}</span></p>
+                <p class="scoreBoxTitle">secrets: &nbsp;<span class="scoreBoxText">{{secrets}}</span></p>
+                <p class="scoreBoxTitle">weight: &nbsp;<span class="scoreBoxText">{{weight}}</span></p>
             </div>
             <div style="padding-top:30px;padding-left:15px">
                 <!-- perfect place for jinja loop combined with api data somehow -->
                 <div style="width:100%" class="row">
                     <div style="width:50%">
                         <p class="scoreBoxTitle">f1 - bonzo :</p>
-                        <p class="scoreBoxText" style="padding-left:20px">102 kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">5m 56s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f1completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f1min}}m {{f1sec}}s</p>
                     </div>
                     <div style="width:50%;padding-left:20px">
                         <p class="scoreBoxTitle">f2 - scarf :</p>
-                        <p class="scoreBoxText" style="padding-left:20px">79 kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">6m 16s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f2completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f2min}}m {{f2sec}}s</p>
                     </div>
                 </div>
                 <div style="width:100%;padding-top:20px" class="row">
                     <div style="width:50%">
                         <p class="scoreBoxTitle">f3 - professor :</p>
-                        <p class="scoreBoxText" style="padding-left:20px">43 kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">7m 29s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f3completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f3min}}m {{f3sec}}s</p>
                     </div>
                     <div style="width:50%;padding-left:20px">
                         <p class="scoreBoxTitle">f4 - thorn :</p>
-                        <p class="scoreBoxText" style="padding-left:20px">100 kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">4m 30s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f4completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f4min}}m {{f4sec}}s</p>
                     </div>
                 </div>
                 <div style="width:100%;padding-top:20px" class="row">
                     <div style="width:50%">
                         <p class="scoreBoxTitle">f5 - livid :</p>
-                        <p class="scoreBoxText" style="padding-left:20px">108 kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">4m 29s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f5completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f5min}}m {{f5sec}}s</p>
                     </div>
                     <div style="width:50%;padding-left:20px">
                         <p class="scoreBoxTitle">f6 - sadan :</p>
-                        <p class="scoreBoxText" style="padding-left:20px">114 kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">6m 24s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f6completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f6min}}m {{f6sec}}s</p>
                     </div>
                 </div>
                 <div style="width:100%;padding-top:20px" class="row">
                     <div style="width:50%">
                         <p class="scoreBoxTitle">f7 - necron :</p>
-                        <p class="scoreBoxText" style="padding-left:20px">41 kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">8m 19s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f7completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f7min}}m {{f7sec}}s</p>
                     </div>
                     <div style="width:50%;padding-left:20px">
                         <!-- blank for jinja loop? -->
@@ -76,8 +76,8 @@
                         <p class="scoreBoxText" style="padding-left:20px"></p>
                     </div>
                 </div>
-                <div style="padding-left:250px;">
-                    <p class="scoreBoxTitle">profile: pear</p>
+                <div style="padding-left:210px;">
+                    <p class="scoreBoxTitle">profile: {{profilename}}</p>
                 </div>
             </div>
         </div>
