@@ -14,6 +14,7 @@ def home():
     username = "username"
     profilename = "profile"
     uuid = "52c66d0a-ad76-42df-aa23-0d9cb75832ea"
+    scoreimage = "s+"
     if request.method=='POST':
         username = request.form.get('username')
         profilename = request.form.get('cute_name')
@@ -51,17 +52,24 @@ def home():
                 completions.append("N/A")
 
 
-        bonus = 0
-        catalvlscore = math.floor((catalvl/50)*150)
+        if catalvl>=38:
+            temp2 = catalvl-38
+            catabonus = math.floor((temp2))
+        else:
+            catalvlscore = math.floor((catalvl/38)*150)
+            catabonus = 0
 
         if secrets>=12000:
             temp = secrets-12000
             secretsscore = 150
-            bonus = math.floor(temp/5000)
+            secretbonus = math.floor(temp/5000)
         else:
             secretsscore = math.floor((secrets/12000)*150)
+            secretbonus = 0
 
+        bonus = catabonus + secretbonus
         total = catalvlscore + secretsscore + bonus
+
 
         if total <= 99:
             scoreimage = "d"
@@ -75,6 +83,8 @@ def home():
             scoreimage = "s"
         elif total >= 300:
             scoreimage = "s+"
+
+        print(scoreimage)
 
         return render_template(
             "index.html",
@@ -120,7 +130,7 @@ def home():
             f7completions=completions[6],
 
         )
-    return render_template("index.html", username=username, profilename=profilename, uuid=uuid)
+    return render_template("index.html", username=username, profilename=profilename, uuid=uuid, scoreimage=scoreimage)
 
 @app.route("/about")
 def about():
