@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
 {% block testapi %}
-
+<div style="padding-left:96px;width:100%;overflow:hidden;">
+    <form id="form" method="post">
+        <div class="row">
+            <p><input class="searchBar" size="30" type="text" name="username" placeholder="username" data-val-required="Username is required." required></p>
+            <p style="text-align:center;margin-left:15px;"><input class="searchBtn" type="submit" value="search"></p>
+        </div>
+    </form>
+    <h1 style="margin-left:80px;" class="playerName">{{username}}</h1>
+    <h1 style="margin-left:80px;" class="playerName">{{profiles}}</h1>
+</div>
 {% endblock %}

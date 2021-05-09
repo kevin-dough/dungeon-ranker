@@ -7,8 +7,6 @@ app = Flask(__name__)
 
 @app.route('/home', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
-
-
 def home():
     global username, profilename
     username = "username"
@@ -21,8 +19,8 @@ def home():
         mcdata = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}").json()
         uuid = mcdata["id"]
         skycryptdata = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profilename}").json()
-
-
+        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+        formattedusername = mcdata["name"]
         catalvl = skycryptdata["dungeons"]["catacombs"]["level"]["level"]
         secrets = skycryptdata["dungeons"]["secrets_found"]
         try:
@@ -30,11 +28,13 @@ def home():
         except:
             weight = "N/A"
 
+
         floors = [1, 2, 3, 4, 5, 6, 7]
         mins = []
         secs = []
         completions = []
-        for n in floors:
+
+        def floordata(n):
             try:
                 ftime = (skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s_plus"])/1000
                 fmin = math.floor(ftime/60)
@@ -51,44 +51,57 @@ def home():
             except:
                 completions.append("N/A")
 
-
-        if catalvl>=38:
-            temp2 = catalvl-38
-            catabonus = math.floor((temp2))
-        else:
-            catalvlscore = math.floor((catalvl/38)*150)
-            catabonus = 0
-
-        if secrets>=12000:
-            temp = secrets-12000
-            secretsscore = 150
-            secretbonus = math.floor(temp/5000)
-        else:
-            secretsscore = math.floor((secrets/12000)*150)
-            secretbonus = 0
-
-        bonus = catabonus + secretbonus
-        total = catalvlscore + secretsscore + bonus
+        for n in floors:
+            floordata(n)
 
 
-        if total <= 99:
-            scoreimage = "d"
-        elif total in range(100, 160):
-            scoreimage = "c"
-        elif total in range(160, 230):
-            scoreimage = "b"
-        elif total in range(230, 270):
-            scoreimage = "a"
-        elif total in range(270, 300):
-            scoreimage = "s"
-        elif total >= 300:
+
+
+        def calculate_score(catalvl, secrets):
+            global catalvlscore, secretsscore, bonus, total
+
+            if catalvl>=38:
+                temp2 = catalvl-38
+                catabonus = math.floor((temp2))
+            else:
+                catalvlscore = math.floor((catalvl/38)*150)
+                catabonus = 0
+
+            if secrets>=12000:
+                temp = secrets-12000
+                secretsscore = 150
+                secretbonus = math.floor(temp/5000)
+            else:
+                secretsscore = math.floor((secrets/12000)*150)
+                secretbonus = 0
+
+            bonus = catabonus + secretbonus
+            total = catalvlscore + secretsscore + bonus
+
+            return catalvlscore, secretsscore, bonus, total
+
+        def getscoreimage(total):
+            global scoreimage
             scoreimage = "s+"
+            if total <= 99:
+                scoreimage = "d"
+            elif total in range(100, 160):
+                scoreimage = "c"
+            elif total in range(160, 230):
+                scoreimage = "b"
+            elif total in range(230, 270):
+                scoreimage = "a"
+            elif total in range(270, 300):
+                scoreimage = "s"
+            elif total >= 300:
+                scoreimage = "s+"
+            return scoreimage
 
-        print(scoreimage)
+        calculate_score(catalvl, secrets)
 
         return render_template(
             "index.html",
-            username=username,
+            username=formattedusername,
             profilename=profilename,
             uuid=uuid,
             catalvl=catalvl,
@@ -99,7 +112,7 @@ def home():
             bonus=bonus,
             catalvlscore=catalvlscore,
             total=total,
-            scoreimage=scoreimage,
+            scoreimage=getscoreimage(total),
 
             f1min=mins[0],
             f1sec=secs[0],
@@ -136,8 +149,18 @@ def home():
 def about():
     return render_template("about.html", groupdatalist=aboutdata.groupdata())
 
-@app.route("/testapi")
+@app.route('/testapi', methods=['GET', 'POST'])
 def testapi():
+    if request.method=='POST':
+        usernamee = request.form.get('username')
+        mcdata = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{usernamee}").json()
+
+        formattedusername1 = mcdata["name"]
+        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{usernamee}").json()
+        profile_id = skycryptprofiledata["profiles"]["profile_id"]
+        cute_name = skycryptprofiledata["profiles"][f"{profile_id}"]["cute_name"]
+        print(cute_name)
+        return render_template("testapi.html", username=formattedusername1)
     return render_template("testapi.html")
 
 if __name__ == "__main__":
