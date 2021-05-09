@@ -145,6 +145,24 @@ def home():
         )
     return render_template("index.html", username=username, profilename=profilename, uuid=uuid, scoreimage=scoreimage)
 
+@app.route("/help", methods=['GET', 'POST'])
+def help():
+    if request.method=='POST':
+        username = request.form.get('username')
+        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+        profiles = skycryptprofiledata["profiles"]
+        profilelist = []
+        for i in profiles.keys():
+            print(profiles[i]["cute_name"])
+            profilelist.append(profiles[i]["cute_name"])
+        print(profilelist)
+        profilelistlength = len(profilelist)
+        profilelistformatted = ""
+        for b in range(profilelistlength):
+            profilelistformatted = profilelistformatted + profilelist[b] + " "
+        return render_template("help.html", profiles=profilelistformatted)
+    return render_template("help.html")
+
 @app.route("/about")
 def about():
     return render_template("about.html", groupdatalist=aboutdata.groupdata())
