@@ -157,9 +157,13 @@ def help():
             profilelist.append(profiles[i]["cute_name"])
         print(profilelist)
         profilelistlength = len(profilelist)
-        profilelistformatted = ""
+        profilelisttemp = ""
         for b in range(profilelistlength):
-            profilelistformatted = profilelistformatted + profilelist[b] + " "
+            if b == profilelistlength-1:
+                profilelisttemp = profilelisttemp + profilelist[b]
+            else:
+                profilelisttemp = profilelisttemp + profilelist[b] + ", "
+        profilelistformatted = "Profiles: " + profilelisttemp
         return render_template("help.html", profiles=profilelistformatted)
     return render_template("help.html")
 
