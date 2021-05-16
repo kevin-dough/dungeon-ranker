@@ -19,21 +19,24 @@
 </div>
 
 <div style="padding-top:40px"></div>
+<!-- {{username}} is where the variable "username" will be displayed -->
 <h1 style="margin-left:80px;" class="playerName">{{username}}</h1>
 <div class="row" style="overflow:hidden;max-width:100%">
     <div style="margin-left:80px" class="scoreBox row justify-content-center">
         <div style="width:40%;padding-top:80px"><center>
+            <!-- the username which the user inputs is used to found the minecraft uuid which is used to find player skin -->
             <img style="padding-top:25px" src="https://crafatar.com/renders/body/{{uuid}}?overlay" width="50%" height="100%">
         </center>
         </div>
         <div style="width:60%;padding-left:50px">
             <div>
+                <!-- displaying user's dungeons data -->
                 <p style="padding-top:40px" class="scoreBoxTitle">catacombs: &nbsp;<span class="scoreBoxText">{{catalvl}}</span></p>
                 <p class="scoreBoxTitle">secrets: &nbsp;<span class="scoreBoxText">{{secrets}}</span></p>
                 <p class="scoreBoxTitle">weight: &nbsp;<span class="scoreBoxText">{{weight}}</span></p>
             </div>
             <div style="padding-top:30px;padding-left:15px">
-                <!-- perfect place for jinja loop combined with api data somehow -->
+                <!-- displaying data for each floor -->
                 <div style="width:100%" class="row">
                     <div style="width:50%">
                         <p class="scoreBoxTitle">f1 - bonzo :</p>
@@ -77,13 +80,14 @@
                         <p class="scoreBoxText" style="padding-left:20px">{{f7min}}m {{f7sec}}s</p>
                     </div>
                     <div style="width:50%;padding-left:20px">
-                        <!-- blank for jinja loop? -->
+                        <!-- blank div for spacing -->
                         <p class="scoreBoxTitle"></p>
                         <p class="scoreBoxText" style="padding-left:20px"></p>
                         <p class="scoreBoxText" style="padding-left:20px"></p>
                     </div>
                 </div>
                 <div style="padding-left:180px;">
+                    <!-- {{profilename}} is where the variable "profilename" will be displayed -->
                     <p class="scoreBoxTitle">profile: {{profilename}}</p>
                 </div>
             </div>
@@ -99,9 +103,11 @@
             </center>
             <div class="row justify-content-center" style="padding-top:40px">
                 <div style="width:40%;margin-left:80px">
+                    <!-- image of the rank given to user -->
                     <img src="static/images/{{scoreimage}}.png" height="360" width="275">
                 </div>
                 <div style="width:40%;padding-top:20px;font-size:2em;margin-left:20px">
+                    <!-- the player's calculated score and rank are displayed here -->
                     <p class="scoreBoxTitle">CATALVL: {{catalvlscore}}</p>
                     <p class="scoreBoxTitle">SECRETS: {{secretsscore}}</p>
                     <p class="scoreBoxTitle">BONUS: {{bonus}}</p>

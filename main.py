@@ -1,18 +1,21 @@
+#importing libraries for webpage, api, data files, and more math operations
 from flask import Flask, redirect, url_for, render_template, request
 import aboutdata, requests, math
 
 app = Flask(__name__)
 
 
-
+#route for homepage
 @app.route('/home', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    #placeholder variables for before user input
     global username, profilename
     username = "username"
     profilename = "profile"
     uuid = "52c66d0a-ad76-42df-aa23-0d9cb75832ea"
     scoreimage = "s+"
+    #if user inputs, set these variables using form data
     if request.method=='POST':
         username = request.form.get('username')
         profilename = request.form.get('cute_name')
@@ -24,17 +27,19 @@ def home():
         formattedusername = mcdata["name"]
         catalvl = skycryptdata["dungeons"]["catacombs"]["level"]["level"]
         secrets = skycryptdata["dungeons"]["secrets_found"]
+        #try to find dungeon weight through api; if unable to find set variable weight to N/A
         try:
             weight = round((skycryptdata["dungeons"]["dungeonsWeight"]), 2)
         except:
             weight = "N/A"
 
-
+        #lists to fill out
         floors = [1, 2, 3, 4, 5, 6, 7]
         mins = []
         secs = []
         completions = []
 
+        #procedure to find fastest time and completions for each floor
         def floordata(n, timeoption):
             if timeoption=="s+":
                 try:
@@ -63,17 +68,22 @@ def home():
             except:
                 completions.append("N/A")
 
+            print(mins)
+            print(secs)
+            print(completions)
+
+        #user can choose between s+ and s, which will be used to determine fastest time for s/s+
         if fastesttime=="splus":
-            timeoption = "s+"
+            for n in floors:
+                floordata(n, 's+')
         elif fastesttime=="s":
-            timeoption = "s"
-        for n in floors:
-            floordata(n, timeoption)
+            for n in floors:
+                floordata(n, 's')
 
 
 
 
-
+        #procedure to calculate score to give to user based on catacombs level and secrets
         def calculate_score(catalvl, secrets):
             global catalvlscore, secretsscore, bonus, total
 
@@ -97,6 +107,7 @@ def home():
 
             return catalvlscore, secretsscore, bonus, total
 
+        #procedure to select a certain image based on the score the user recieves
         def getscoreimage(total):
             global scoreimage
             scoreimage = "s+"
@@ -115,7 +126,7 @@ def home():
             return scoreimage
 
         calculate_score(catalvl, secrets)
-
+        #sending all the variables to the webpage
         return render_template(
             "index.html",
             username=formattedusername,
@@ -164,15 +175,18 @@ def home():
 
 @app.route("/help", methods=['GET', 'POST'])
 def help():
+    #get form data on "help!" page where user can find the name of their profile by inputting their username
     if request.method=='POST':
         username = request.form.get('username')
         skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
         profiles = skycryptprofiledata["profiles"]
+        #creates a list of their profiles based on API data
         profilelist = []
         for i in profiles.keys():
             print(profiles[i]["cute_name"])
             profilelist.append(profiles[i]["cute_name"])
         print(profilelist)
+        #formats profilelist to display on webpage
         profilelistlength = len(profilelist)
         profilelisttemp = ""
         for b in range(profilelistlength):
@@ -186,21 +200,9 @@ def help():
 
 @app.route("/about")
 def about():
+    #uses lists and definitions from aboutdata.py file to display data on webpage
     return render_template("about.html", groupdatalist=aboutdata.groupdata())
 
-@app.route('/testapi', methods=['GET', 'POST'])
-def testapi():
-    if request.method=='POST':
-        usernamee = request.form.get('username')
-        mcdata = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{usernamee}").json()
-
-        formattedusername1 = mcdata["name"]
-        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{usernamee}").json()
-        profile_id = skycryptprofiledata["profiles"]["profile_id"]
-        cute_name = skycryptprofiledata["profiles"][f"{profile_id}"]["cute_name"]
-        print(cute_name)
-        return render_template("testapi.html", username=formattedusername1)
-    return render_template("testapi.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

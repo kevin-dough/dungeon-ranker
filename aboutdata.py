@@ -1,22 +1,25 @@
-def kevin():
-    name = "kevin do"
+
+#this is data that will be used in the about page which will be displayed with a jinja loop
+
+def person1():
+    name = "person1"
     color = "#ff458a"
-    firstname = "kevin"
+    firstname = "person"
     ign = "CrazyUdon"
-    social1 = "https://github.com/kevin-dough"
-    social2 = "https://www.instagram.com/_kevintdo_/"
+    social1 = "https://github.com/"
+    social2 = "https://www.instagram.com/"
     info = {"name": name, "color": color, "firstname": firstname, "ign": ign, "social1": social1, "social2": social2}
     return info
 
-def kian():
-    name = "kian kishimoto"
+def person2():
+    name = "person2"
     color = "#1bc725"
-    firstname = "kian"
+    firstname = "person"
     ign = "sea7wa"
-    social1 = "https://github.com/Uhpachee"
-    social2 = "https://www.instagram.com/kian.isntcool/"
+    social1 = "https://github.com/"
+    social2 = "https://www.instagram.com/"
     info = {"name": name, "color": color, "firstname": firstname, "ign": ign, "social1": social1, "social2": social2}
     return info
 
 def groupdata():
-    return [kevin(), kian()]
+    return [person1(), person2()]
