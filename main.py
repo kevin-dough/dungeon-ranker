@@ -20,10 +20,11 @@ def home():
         username = request.form.get('username')
         profilename = request.form.get('cute_name')
         fastesttime = request.form.get('time')
+        #Mojang API https://api.mojang.com
         mcdata = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}").json()
         uuid = mcdata["id"]
+        #SkyCrypt API https://sky.shiiyu.moe/api
         skycryptdata = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profilename}").json()
-        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
         formattedusername = mcdata["name"]
         catalvl = skycryptdata["dungeons"]["catacombs"]["level"]["level"]
         secrets = skycryptdata["dungeons"]["secrets_found"]
