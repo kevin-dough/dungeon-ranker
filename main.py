@@ -4,6 +4,8 @@ import aboutdata, requests, math
 
 app = Flask(__name__)
 
+#Mojang API and SkyCrypt API were used in the making of this project.
+
 
 #route for homepage
 @app.route('/home', methods=['GET', 'POST'])
@@ -23,7 +25,7 @@ def home():
         #Mojang API https://api.mojang.com
         mcdata = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}").json()
         uuid = mcdata["id"]
-        #SkyCrypt API https://sky.shiiyu.moe/api
+        #SkyCrypt API https://sky.shiiyu.moe/api/v2/
         skycryptdata = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profilename}").json()
         formattedusername = mcdata["name"]
         catalvl = skycryptdata["dungeons"]["catacombs"]["level"]["level"]
