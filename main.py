@@ -16,6 +16,7 @@ def home():
     if request.method=='POST':
         username = request.form.get('username')
         profilename = request.form.get('cute_name')
+        fastesttime = request.form.get('time')
         mcdata = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}").json()
         uuid = mcdata["id"]
         skycryptdata = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profilename}").json()
@@ -34,16 +35,27 @@ def home():
         secs = []
         completions = []
 
-        def floordata(n):
-            try:
-                ftime = (skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s_plus"])/1000
-                fmin = math.floor(ftime/60)
-                fsec = math.ceil(ftime - 60*fmin)
-                mins.append(fmin)
-                secs.append(fsec)
-            except:
-                mins.append("?")
-                secs.append("?")
+        def floordata(n, timeoption):
+            if timeoption=="s+":
+                try:
+                    ftime = (skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s_plus"])/1000
+                    fmin = math.floor(ftime/60)
+                    fsec = math.ceil(ftime - 60*fmin)
+                    mins.append(fmin)
+                    secs.append(fsec)
+                except:
+                    mins.append("?")
+                    secs.append("?")
+            elif timeoption=="s":
+                try:
+                    ftime = (skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s"])/1000
+                    fmin = math.floor(ftime/60)
+                    fsec = math.ceil(ftime - 60*fmin)
+                    mins.append(fmin)
+                    secs.append(fsec)
+                except:
+                    mins.append("?")
+                    secs.append("?")
 
             try:
                 fcompletions = skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["tier_completions"]
@@ -51,8 +63,13 @@ def home():
             except:
                 completions.append("N/A")
 
+        if fastesttime=="splus":
+            timeoption = "s+"
+        elif fastesttime=="s":
+            timeoption = "s"
         for n in floors:
-            floordata(n)
+            floordata(n, timeoption)
+
 
 
 

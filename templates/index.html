@@ -6,6 +6,13 @@
         <div class="row">
             <p><input class="searchBar" size="30" type="text" name="username" placeholder="username" data-val-required="Username is required." required></p>
             <p style="margin-left:15px"><input class="searchBar" size="30" type="text" name="cute_name" placeholder="profile name" data-val-required="Profile name is required." required></p>
+            <p style="margin-left:15px;">
+                <label class="pageText" for="time">Fastest Time:</label>
+                <select id="time" name="time" required>
+                    <option value="s">s</option>
+                    <option value="splus">s+</option>
+                </select>
+            </p>
             <p style="text-align:center;margin-left:15px;"><input class="searchBtn" type="submit" value="search"></p>
         </div>
     </form>
