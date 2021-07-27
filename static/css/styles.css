@@ -1,3 +1,7 @@
+html {
+    zoom: 90%;
+}
+
 .navbarTitle {
     font-family: "Open Sans";
     font-style: italic;
