@@ -10,6 +10,9 @@
     <link rel="icon" type="image/png" sizes="32x32" href="static/icons/favicon-32x32">
     <link rel="icon" type="image/png" sizes="16x16" href="static/icons/favicon-16x16.png">
     <script src="https://kit.fontawesome.com/a8bf0a2920.js" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+    <base href="/">
 
     <style>
 
@@ -20,10 +23,15 @@
     </style>
 </head>
 <body>
+<script>
+    if(screen.width>=1000) {document.write("<style>body{zoom:80%;}</style>");}
+    if(screen.width>=1500) {document.write("<style>body{zoom:75%;}</style>");}
+    if(screen.width>=2000) {document.write("<style>body{zoom:70%;}</style>");}
+</script>
 <!-- base file for html; includes navigation bar and links to bootstrap, css, favicon, etc. -->
     <nav class="nav navbar navbar-expand-md" style="position:fixed;min-width:100%;overflow:hidden;background-color: #444444;">
         <div class="mx-auto order-0" style="padding-top:0px">
-            <a class="navbarTitle navbar-brand mx-auto py-0" href="home">
+            <a class="navbarTitle navbar-brand mx-auto py-0" href="/">
                 <img style="margin-right:10px" src="/static/images/s+.png" width="8%" height="8%" class="d-inline-block align-top" alt="">
                 <span class="navbarTitle">dungeon ranker</span>
             </a>
@@ -31,13 +39,13 @@
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" >
             <ul style="list-style:none;" class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="navbarLink nav-link py-0" href="home">ranker</a>
+                    <a class="navbarLink nav-link py-0" href="{{ url_for('home') }}">ranker</a>
                 </li>
                 <li class="nav-item">
-                    <a class="navbarLink nav-link py-0" href="help">help!</a>
+                    <a class="navbarLink nav-link py-0" href="{{ url_for('help') }}">help!</a>
                 </li>
                 <li class="nav-item">
-                    <a class="navbarLink nav-link py-0" href="about">about</a>
+                    <a class="navbarLink nav-link py-0" href="{{ url_for('about') }}">about</a>
                 </li>
             </ul>
         </div>
@@ -53,6 +61,9 @@
 {% block index %}
 {% endblock %}
 
+{% block stats %}
+{% endblock %}
+
 {% block about %}
 {% endblock %}
 
@@ -61,5 +72,5 @@
 
 {% block testapi %}
 {% endblock %}
+
 </body>
-</html>

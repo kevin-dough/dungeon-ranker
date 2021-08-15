@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block stats %}
+
+<div style="padding-top:40px"></div>
+<!-- {{username}} is where the variable "username" will be displayed -->
+<div class="row" style="overflow:hidden;max-width:100%;height:60px">
+    <div class="row" style="width:800px;margin-left:80px">
+        <h1 class="playerName titleBox">{{username}}</h1>
+        <h1 style="margin-left:20px;" class="guildName titleBox">Guild: {{guild.name}}</h1>
+    </div>
+    <div style="width:220px"></div>
+    <div class="row justify-content-around" style="padding-top:20px;width:300px">
+        <div class="row justify-content-around" style="width:40%">
+            <div class="switchLabel">S</div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <div class="switchLabel">S+</div>
+        </div>
+        <div class="row justify-content-around" style="margin-left:20px;width:40%">
+            <div class="switchLabel">F</div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <div class="switchLabel">M</div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="overflow:hidden;max-width:100%;padding-top:10px">
+    <div style="margin-left:80px" class="scoreBox row justify-content-center">
+        <div style="width:40%;padding-top:80px">
+            <center>
+                <!-- the username which the user inputs is used to found the minecraft uuid which is used to find player skin -->
+                <img style="padding-top:25px" src="https://crafatar.com/renders/body/{{uuid}}?overlay" width="50%"
+                     height="100%">
+            </center>
+        </div>
+        <div style="width:60%;padding-left:50px">
+            <div>
+                <!-- displaying user's dungeons data -->
+                <p style="padding-top:40px" class="scoreBoxTitle">catacombs: &nbsp;<span class="scoreBoxText">{{catalvl}}</span>
+                </p>
+                <p class="scoreBoxTitle">secrets: &nbsp;<span class="scoreBoxText">{{secrets}}</span></p>
+                <p class="scoreBoxTitle">weight: &nbsp;<span class="scoreBoxText">{{weight}}</span></p>
+            </div>
+            <div style="padding-top:30px;padding-left:15px">
+                <!-- displaying data for each floor -->
+                <div style="width:100%" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">f1 - bonzo :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f1completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f1min}}m {{f1sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">f2 - scarf :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f2completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f2min}}m {{f2sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">f3 - professor :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f3completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f3min}}m {{f3sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">f4 - thorn :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f4completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f4min}}m {{f4sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">f5 - livid :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f5completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f5min}}m {{f5sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">f6 - sadan :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f6completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f6min}}m {{f6sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">f7 - necron :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f7completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f7min}}m {{f7sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <!-- blank div for spacing -->
+                        <p class="scoreBoxTitle"></p>
+                        <p class="scoreBoxText" style="padding-left:20px"></p>
+                        <p class="scoreBoxText" style="padding-left:20px"></p>
+                    </div>
+                </div>
+                <div style="padding-left:180px;">
+                    <!-- {{profile}} is where the variable "profile" will be displayed -->
+                    <p class="scoreBoxTitle">profile: {{profile}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding-left:200px;">
+        <!--<img src="static/images/blankmap.jpg" height="550px" width="550px">-->
+        <div class="scoreBox">
+            <center>
+                <h1 style="padding-top:70px;line-height: 0;font-size:300%" class="playerName">{{username}}</h1>
+                <h1 style="padding-top:40px;line-height: 0;font-size:200%" class="playerName">({{profile}})</h1>
+            </center>
+            <div class="row justify-content-center" style="padding-top:40px">
+                <div style="width:40%;margin-left:80px">
+                    <!-- image of the rank given to user -->
+                    <img src="static/images/{{scoreimage}}.png" height="360" width="275">
+                </div>
+                <div style="width:40%;padding-top:20px;font-size:2em;margin-left:20px">
+                    <!-- the player's calculated score and rank are displayed here -->
+                    <p class="scoreBoxTitle">CATALVL: {{catalvlscore}}</p>
+                    <p class="scoreBoxTitle">SECRETS: {{secretsscore}}</p>
+                    <p class="scoreBoxTitle">BONUS: {{bonus}}</p>
+                    <p style="padding-top:30px" class="scoreBoxTitle">TOTAL: {{total}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

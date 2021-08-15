@@ -11,28 +11,59 @@ app = Flask(__name__)
 @app.route('/home', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    #placeholder variables for before user input
-    global username, profilename
-    username = "username"
-    profilename = "profile"
-    uuid = "52c66d0a-ad76-42df-aa23-0d9cb75832ea"
-    scoreimage = "s+"
-    #if user inputs, set these variables using form data
+    #get form data on "help!" page where user can find the name of their profile by inputting their username
     if request.method=='POST':
         username = request.form.get('username')
-        profilename = request.form.get('cute_name')
-        fastesttime = request.form.get('time')
+        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+        profiles = skycryptprofiledata["profiles"]
+        #creates a list of their profiles based on API data
+        profilelist = []
+        for i in profiles.keys():
+            print(profiles[i]["cute_name"])
+            profilelist.append(profiles[i]["cute_name"])
+        print(profilelist)
+        #formats profilelist to display on webpage
+        profilelistlength = len(profilelist)
+        profilelisttemp = ""
+        for b in range(profilelistlength):
+            if b == profilelistlength-1:
+                profilelisttemp = profilelisttemp + profilelist[b]
+            else:
+                profilelisttemp = profilelisttemp + profilelist[b] + ", "
+        profilelistformatted = "Profiles: " + profilelisttemp
+        return render_template("index.html", profiles=profilelistformatted)
+    return render_template("index.html")
+
+
+@app.route('/stats/<username>/<profile>', methods=['GET', 'POST'])
+def stats(username, profile):
+        fastesttime = "splus" #add a switch
+
         #Mojang API https://api.mojang.com
         mcdata = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}").json()
         uuid = mcdata["id"]
-        #SkyCrypt API https://sky.shiiyu.moe/api/v2/
-        skycryptdata = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profilename}").json()
         formattedusername = mcdata["name"]
-        catalvl = skycryptdata["dungeons"]["catacombs"]["level"]["level"]
-        secrets = skycryptdata["dungeons"]["secrets_found"]
+
+        #SkyCrypt API https://sky.shiiyu.moe/api/v2/
+        skycryptprofile = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+
+        #guild info
+        profiles = skycryptprofile["profiles"]
+        firstprofile = list(profiles.keys())[0]
+
+        name = profiles[firstprofile]["data"]["guild"]["name"]
+        tag = profiles[firstprofile]["data"]["guild"]["tag"]
+        level = profiles[firstprofile]["data"]["guild"]["level"]
+        rank = profiles[firstprofile]["data"]["guild"]["rank"]
+        members = profiles[firstprofile]["data"]["guild"]["members"]
+        guild = {"name": name, "tag": tag, "level": level, "rank": rank, "members": members}
+
+        skycryptdungeons = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profile}").json()
+        catalvl = skycryptdungeons["dungeons"]["catacombs"]["level"]["level"]
+        secrets = skycryptdungeons["dungeons"]["secrets_found"]
         #try to find dungeon weight through api; if unable to find set variable weight to N/A
         try:
-            weight = round((skycryptdata["dungeons"]["dungeonsWeight"]), 2)
+            weight = round((skycryptdungeons["dungeons"]["dungeonsWeight"]), 2)
         except:
             weight = "N/A"
 
@@ -46,7 +77,7 @@ def home():
         def floordata(n, timeoption):
             if timeoption=="s+":
                 try:
-                    ftime = (skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s_plus"])/1000
+                    ftime = (skycryptdungeons["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s_plus"])/1000
                     fmin = math.floor(ftime/60)
                     fsec = math.ceil(ftime - 60*fmin)
                     mins.append(fmin)
@@ -56,7 +87,7 @@ def home():
                     secs.append("?")
             elif timeoption=="s":
                 try:
-                    ftime = (skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s"])/1000
+                    ftime = (skycryptdungeons["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s"])/1000
                     fmin = math.floor(ftime/60)
                     fsec = math.ceil(ftime - 60*fmin)
                     mins.append(fmin)
@@ -66,7 +97,7 @@ def home():
                     secs.append("?")
 
             try:
-                fcompletions = skycryptdata["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["tier_completions"]
+                fcompletions = skycryptdungeons["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["tier_completions"]
                 completions.append(fcompletions)
             except:
                 completions.append("N/A")
@@ -131,74 +162,28 @@ def home():
         calculate_score(catalvl, secrets)
         #sending all the variables to the webpage
         return render_template(
-            "index.html",
+            "stats.html",
             username=formattedusername,
-            profilename=profilename,
+            profile=profile,
             uuid=uuid,
-            catalvl=catalvl,
-            secrets=secrets,
-            weight=weight,
 
-            secretsscore = secretsscore,
-            bonus=bonus,
-            catalvlscore=catalvlscore,
-            total=total,
+            guild=guild,
+
+            catalvl=catalvl, secrets=secrets, weight=weight,
+            secretsscore = secretsscore, bonus=bonus, catalvlscore=catalvlscore, total=total,
             scoreimage=getscoreimage(total),
-
-            f1min=mins[0],
-            f1sec=secs[0],
-            f1completions=completions[0],
-
-            f2min=mins[1],
-            f2sec=secs[1],
-            f2completions=completions[1],
-
-            f3min=mins[2],
-            f3sec=secs[2],
-            f3completions=completions[2],
-
-            f4min=mins[3],
-            f4sec=secs[3],
-            f4completions=completions[3],
-
-            f5min=mins[4],
-            f5sec=secs[4],
-            f5completions=completions[4],
-
-            f6min=mins[5],
-            f6sec=secs[5],
-            f6completions=completions[5],
-
-            f7min=mins[6],
-            f7sec=secs[6],
-            f7completions=completions[6],
+            f1min=mins[0], f1sec=secs[0], f1completions=completions[0],
+            f2min=mins[1], f2sec=secs[1], f2completions=completions[1],
+            f3min=mins[2], f3sec=secs[2], f3completions=completions[2],
+            f4min=mins[3], f4sec=secs[3], f4completions=completions[3],
+            f5min=mins[4], f5sec=secs[4], f5completions=completions[4],
+            f6min=mins[5], f6sec=secs[5], f6completions=completions[5],
+            f7min=mins[6], f7sec=secs[6], f7completions=completions[6],
 
         )
-    return render_template("index.html", username=username, profilename=profilename, uuid=uuid, scoreimage=scoreimage)
 
-@app.route("/help", methods=['GET', 'POST'])
+@app.route("/help")
 def help():
-    #get form data on "help!" page where user can find the name of their profile by inputting their username
-    if request.method=='POST':
-        username = request.form.get('username')
-        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
-        profiles = skycryptprofiledata["profiles"]
-        #creates a list of their profiles based on API data
-        profilelist = []
-        for i in profiles.keys():
-            print(profiles[i]["cute_name"])
-            profilelist.append(profiles[i]["cute_name"])
-        print(profilelist)
-        #formats profilelist to display on webpage
-        profilelistlength = len(profilelist)
-        profilelisttemp = ""
-        for b in range(profilelistlength):
-            if b == profilelistlength-1:
-                profilelisttemp = profilelisttemp + profilelist[b]
-            else:
-                profilelisttemp = profilelisttemp + profilelist[b] + ", "
-        profilelistformatted = "Profiles: " + profilelisttemp
-        return render_template("help.html", profiles=profilelistformatted)
     return render_template("help.html")
 
 @app.route("/about")
