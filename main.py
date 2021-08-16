@@ -6,6 +6,17 @@ app = Flask(__name__)
 
 #Mojang API and SkyCrypt API were used in the making of this project.
 
+@app.route('/lastprofile/<username>', methods=['GET', 'POST'])
+def getlastprofile(username):
+    skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+    profiles = skycryptprofiledata["profiles"]
+    lastprofile = ""
+    lastsave = 0
+    for i in profiles.keys():
+        if (profiles[i]["last_save"] > lastsave):
+            lastsave = profiles[i]["last_save"]
+            lastprofile = profiles[i]["cute_name"]
+    return lastprofile
 
 #route for homepage
 @app.route('/home', methods=['GET', 'POST'])
@@ -19,9 +30,9 @@ def home():
         #creates a list of their profiles based on API data
         profilelist = []
         for i in profiles.keys():
-            print(profiles[i]["cute_name"])
+            # print(profiles[i]["cute_name"])
             profilelist.append(profiles[i]["cute_name"])
-        print(profilelist)
+        # print(profilelist)
         #formats profilelist to display on webpage
         profilelistlength = len(profilelist)
         profilelisttemp = ""
@@ -73,7 +84,7 @@ def stats(username, profile):
     profilelist=[]
 
     for i in profiles.keys():
-        print(profiles[i]["cute_name"])
+        # print(profiles[i]["cute_name"])
         profilelist.append(profiles[i]["cute_name"])
 
     skycryptdungeons = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profile}").json()
@@ -194,8 +205,8 @@ def stats(username, profile):
 
     calculate_score(catalvl, secrets)
 
-    print(mins)
-    print(secs)
+    # print(mins)
+    # print(secs)
 
     #sending all the variables to the webpage
     return render_template(

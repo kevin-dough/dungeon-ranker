@@ -67,6 +67,12 @@ a:hover, a:active {
     background: #fbee4e;
     border:none;
     width: 80px;
+    transform: scale(1);
+    transition: scale 2s ease-in-out;
+}
+
+.searchBtn:active {
+    transform: scale(0.8);
 }
 
 .scoreBox {
