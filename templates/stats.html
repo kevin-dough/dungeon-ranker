@@ -2,19 +2,22 @@
 
 {% block stats %}
 
+
+
 <div style="padding-top:40px"></div>
 <!-- {{username}} is where the variable "username" will be displayed -->
 <div class="row" style="overflow:hidden;max-width:100%;height:60px">
     <div class="row" style="width:800px;margin-left:80px">
         <h1 class="playerName titleBox">{{username}}</h1>
-        <h1 style="margin-left:20px;" class="guildName titleBox">Guild: {{guild.name}}</h1>
+        <h1 style="margin-left:20px;" class="profileTitle titleBox">Profile: {{profile}}</h1>
+        <h1 style="margin-left:20px;" class="profileTitle titleBox">Guild: {{guild.name}}</h1>
     </div>
     <div style="width:220px"></div>
     <div class="row justify-content-around" style="padding-top:20px;width:300px">
         <div class="row justify-content-around" style="width:40%">
             <div class="switchLabel">S</div>
             <label class="switch">
-                <input type="checkbox">
+                <input type="checkbox" id="scoreTypeCheck" onchange="statCheck()">
                 <span class="slider round"></span>
             </label>
             <div class="switchLabel">S+</div>
@@ -22,7 +25,7 @@
         <div class="row justify-content-around" style="margin-left:20px;width:40%">
             <div class="switchLabel">F</div>
             <label class="switch">
-                <input type="checkbox">
+                <input type="checkbox" id="cataTypeCheck" onchange="statCheck()">
                 <span class="slider round"></span>
             </label>
             <div class="switchLabel">M</div>
@@ -47,49 +50,50 @@
                 <p class="scoreBoxTitle">secrets: &nbsp;<span class="scoreBoxText">{{secrets}}</span></p>
                 <p class="scoreBoxTitle">weight: &nbsp;<span class="scoreBoxText">{{weight}}</span></p>
             </div>
-            <div style="padding-top:30px;padding-left:15px">
-                <!-- displaying data for each floor -->
+
+            <div id="fsScoreBox" style="padding-top:30px;padding-left:15px;">
+                <!-- displaying data for each floor ----- F/S -->
                 <div style="width:100%" class="row">
                     <div style="width:50%">
                         <p class="scoreBoxTitle">f1 - bonzo :</p>
                         <p class="scoreBoxText" style="padding-left:20px">{{f1completions}} kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">{{f1min}}m {{f1sec}}s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sf1min}}m {{sf1sec}}s</p>
                     </div>
                     <div style="width:50%;padding-left:20px">
                         <p class="scoreBoxTitle">f2 - scarf :</p>
                         <p class="scoreBoxText" style="padding-left:20px">{{f2completions}} kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">{{f2min}}m {{f2sec}}s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sf2min}}m {{sf2sec}}s</p>
                     </div>
                 </div>
                 <div style="width:100%;padding-top:20px" class="row">
                     <div style="width:50%">
                         <p class="scoreBoxTitle">f3 - professor :</p>
                         <p class="scoreBoxText" style="padding-left:20px">{{f3completions}} kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">{{f3min}}m {{f3sec}}s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sf3min}}m {{sf3sec}}s</p>
                     </div>
                     <div style="width:50%;padding-left:20px">
                         <p class="scoreBoxTitle">f4 - thorn :</p>
                         <p class="scoreBoxText" style="padding-left:20px">{{f4completions}} kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">{{f4min}}m {{f4sec}}s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sf4min}}m {{sf4sec}}s</p>
                     </div>
                 </div>
                 <div style="width:100%;padding-top:20px" class="row">
                     <div style="width:50%">
                         <p class="scoreBoxTitle">f5 - livid :</p>
                         <p class="scoreBoxText" style="padding-left:20px">{{f5completions}} kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">{{f5min}}m {{f5sec}}s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sf5min}}m {{sf5sec}}s</p>
                     </div>
                     <div style="width:50%;padding-left:20px">
                         <p class="scoreBoxTitle">f6 - sadan :</p>
                         <p class="scoreBoxText" style="padding-left:20px">{{f6completions}} kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">{{f6min}}m {{f6sec}}s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sf6min}}m {{sf6sec}}s</p>
                     </div>
                 </div>
                 <div style="width:100%;padding-top:20px" class="row">
                     <div style="width:50%">
                         <p class="scoreBoxTitle">f7 - necron :</p>
                         <p class="scoreBoxText" style="padding-left:20px">{{f7completions}} kills</p>
-                        <p class="scoreBoxText" style="padding-left:20px">{{f7min}}m {{f7sec}}s</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sf7min}}m {{sf7sec}}s</p>
                     </div>
                     <div style="width:50%;padding-left:20px">
                         <!-- blank div for spacing -->
@@ -98,11 +102,167 @@
                         <p class="scoreBoxText" style="padding-left:20px"></p>
                     </div>
                 </div>
-                <div style="padding-left:180px;">
-                    <!-- {{profile}} is where the variable "profile" will be displayed -->
-                    <p class="scoreBoxTitle">profile: {{profile}}</p>
+            </div>
+
+            <div id="fsplusScoreBox" style="padding-top:30px;padding-left:15px;">
+                <!-- displaying data for each floor ----- F/S+ -->
+                <div style="width:100%" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">f1 - bonzo :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f1completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spf1min}}m {{spf1sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">f2 - scarf :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f2completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spf2min}}m {{spf2sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">f3 - professor :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f3completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spf3min}}m {{spf3sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">f4 - thorn :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f4completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spf4min}}m {{spf4sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">f5 - livid :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f5completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spf5min}}m {{spf5sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">f6 - sadan :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f6completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spf6min}}m {{spf6sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">f7 - necron :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{f7completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spf7min}}m {{spf7sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <!-- blank div for spacing -->
+                        <p class="scoreBoxTitle"></p>
+                        <p class="scoreBoxText" style="padding-left:20px"></p>
+                        <p class="scoreBoxText" style="padding-left:20px"></p>
+                    </div>
                 </div>
             </div>
+
+            <div id="msScoreBox" style="padding-top:30px;padding-left:15px;">
+                <!-- displaying data for each floor ----- M/S -->
+                <div style="width:100%" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">m1 - bonzo :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m1completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sm1min}}m {{sm1sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">m2 - scarf :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m2completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sm2min}}m {{sm2sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">m3 - professor :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m3completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sm3min}}m {{sm3sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">m4 - thorn :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m4completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sm4min}}m {{sm4sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">m5 - livid :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m5completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sm5min}}m {{sm5sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">m6 - sadan :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m6completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sm6min}}m {{sm6sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">m7 - necron :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m7completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{sm7min}}m {{sm7sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <!-- blank div for spacing -->
+                        <p class="scoreBoxTitle"></p>
+                        <p class="scoreBoxText" style="padding-left:20px"></p>
+                        <p class="scoreBoxText" style="padding-left:20px"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="msplusScoreBox" style="padding-top:30px;padding-left:15px">
+                <!-- displaying data for each floor ----- M/S+ -->
+                <div style="width:100%" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">m1 - bonzo :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m1completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spm1min}}m {{spm1sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">m2 - scarf :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m2completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spm2min}}m {{spm2sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">m3 - professor :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m3completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spm3min}}m {{spm3sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">m4 - thorn :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m4completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spm4min}}m {{spm4sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">m5 - livid :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m5completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spm5min}}m {{spm5sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <p class="scoreBoxTitle">m6 - sadan :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m6completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spm6min}}m {{spm6sec}}s</p>
+                    </div>
+                </div>
+                <div style="width:100%;padding-top:20px" class="row">
+                    <div style="width:50%">
+                        <p class="scoreBoxTitle">m7 - necron :</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{m7completions}} kills</p>
+                        <p class="scoreBoxText" style="padding-left:20px">{{spm7min}}m {{spm7sec}}s</p>
+                    </div>
+                    <div style="width:50%;padding-left:20px">
+                        <!-- blank div for spacing -->
+                        <p class="scoreBoxTitle"></p>
+                        <p class="scoreBoxText" style="padding-left:20px"></p>
+                        <p class="scoreBoxText" style="padding-left:20px"></p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -130,4 +290,48 @@
 
     </div>
 </div>
+
+<script>
+    var scoreTypeCheckBox = document.getElementById("scoreTypeCheck");
+    var cataTypeCheckBox = document.getElementById("cataTypeCheck");
+    var fs = document.getElementById("fsScoreBox");
+    var fsplus = document.getElementById("fsplusScoreBox");
+    var ms = document.getElementById("msScoreBox");
+    var msplus = document.getElementById("msplusScoreBox");
+
+    fs.style.display = "block";
+    fsplus.style.display = "none";
+    ms.style.display = "none";
+    msplus.style.display = "none";
+
+    function statCheck() {
+
+        // alert("Hello! I am an alert box!!");
+        // fs.style.display = "none";
+
+        //problem with if else statements
+        if ((scoreTypeCheckBox.checked === true) && (cataTypeCheckBox.checked === true)){
+            fs.style.display = "none";
+            fsplus.style.display = "none";
+            ms.style.display = "none";
+            msplus.style.display = "block";
+        } else if ((scoreTypeCheckBox.checked === false) && (cataTypeCheckBox.checked === true)){
+            fs.style.display = "none";
+            fsplus.style.display = "none";
+            ms.style.display = "block";
+            msplus.style.display = "none";
+        } else if ((scoreTypeCheckBox.checked === true) && (cataTypeCheckBox.checked === false)){
+            fs.style.display = "none";
+            fsplus.style.display = "block";
+            ms.style.display = "none";
+            msplus.style.display = "none";
+        } else if ((scoreTypeCheckBox.checked === false) && (cataTypeCheckBox.checked === false)){
+            fs.style.display = "block";
+            fsplus.style.display = "none";
+            ms.style.display = "none";
+            msplus.style.display = "none";
+        }
+    }
+
+</script>
 {% endblock %}

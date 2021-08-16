@@ -37,150 +37,180 @@ def home():
 
 @app.route('/stats/<username>/<profile>', methods=['GET', 'POST'])
 def stats(username, profile):
-        fastesttime = "splus" #add a switch
 
-        #Mojang API https://api.mojang.com
-        mcdata = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}").json()
-        uuid = mcdata["id"]
-        formattedusername = mcdata["name"]
+    #Mojang API https://api.mojang.com
+    mcdata = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}").json()
+    uuid = mcdata["id"]
+    formattedusername = mcdata["name"]
 
-        #SkyCrypt API https://sky.shiiyu.moe/api/v2/
-        skycryptprofile = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+    #SkyCrypt API https://sky.shiiyu.moe/api/v2/
+    skycryptprofile = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
 
-        #guild info
-        profiles = skycryptprofile["profiles"]
-        firstprofile = list(profiles.keys())[0]
+    #guild info
+    profiles = skycryptprofile["profiles"]
+    firstprofile = list(profiles.keys())[0]
 
-        name = profiles[firstprofile]["data"]["guild"]["name"]
-        tag = profiles[firstprofile]["data"]["guild"]["tag"]
-        level = profiles[firstprofile]["data"]["guild"]["level"]
-        rank = profiles[firstprofile]["data"]["guild"]["rank"]
-        members = profiles[firstprofile]["data"]["guild"]["members"]
-        guild = {"name": name, "tag": tag, "level": level, "rank": rank, "members": members}
+    name = profiles[firstprofile]["data"]["guild"]["name"]
+    tag = profiles[firstprofile]["data"]["guild"]["tag"]
+    level = profiles[firstprofile]["data"]["guild"]["level"]
+    rank = profiles[firstprofile]["data"]["guild"]["rank"]
+    members = profiles[firstprofile]["data"]["guild"]["members"]
+    guild = {"name": name, "tag": tag, "level": level, "rank": rank, "members": members}
 
-        skycryptdungeons = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profile}").json()
-        catalvl = skycryptdungeons["dungeons"]["catacombs"]["level"]["level"]
-        secrets = skycryptdungeons["dungeons"]["secrets_found"]
-        #try to find dungeon weight through api; if unable to find set variable weight to N/A
-        try:
-            weight = round((skycryptdungeons["dungeons"]["dungeonsWeight"]), 2)
-        except:
-            weight = "N/A"
+    skycryptdungeons = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profile}").json()
+    catalvl = skycryptdungeons["dungeons"]["catacombs"]["level"]["level"]
+    secrets = skycryptdungeons["dungeons"]["secrets_found"]
+    #try to find dungeon weight through api; if unable to find set variable weight to N/A
+    try:
+        weight = round((skycryptdungeons["dungeons"]["dungeonsWeight"]), 2)
+    except:
+        weight = "N/A"
 
-        #lists to fill out
-        floors = [1, 2, 3, 4, 5, 6, 7]
-        mins = []
-        secs = []
-        completions = []
+    #lists to fill out
+    floors = [1, 2, 3, 4, 5, 6, 7]
+    mins = []
+    secs = []
+    completions = []
 
-        #procedure to find fastest time and completions for each floor
-        def floordata(n, timeoption):
-            if timeoption=="s+":
-                try:
-                    ftime = (skycryptdungeons["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s_plus"])/1000
-                    fmin = math.floor(ftime/60)
-                    fsec = math.ceil(ftime - 60*fmin)
-                    mins.append(fmin)
-                    secs.append(fsec)
-                except:
-                    mins.append("?")
-                    secs.append("?")
-            elif timeoption=="s":
-                try:
-                    ftime = (skycryptdungeons["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["fastest_time_s"])/1000
-                    fmin = math.floor(ftime/60)
-                    fsec = math.ceil(ftime - 60*fmin)
-                    mins.append(fmin)
-                    secs.append(fsec)
-                except:
-                    mins.append("?")
-                    secs.append("?")
+    #procedure to find fastest time and completions for each floor
+    def floordata(n, timeoption, catatype):
+        fvm = ""
+        if catatype=="f":
+            fvm = "catacombs"
+        if catatype=="m":
+            fvm = "master_catacombs"
 
+        if timeoption=="s+":
             try:
-                fcompletions = skycryptdungeons["dungeons"]["catacombs"]["floors"][f"{n}"]["stats"]["tier_completions"]
-                completions.append(fcompletions)
+                ftime = (skycryptdungeons["dungeons"][fvm]["floors"][f"{n}"]["stats"]["fastest_time_s_plus"])/1000
+                fmin = math.floor(ftime/60)
+                fsec = math.ceil(ftime - 60*fmin)
+                mins.append(fmin)
+                secs.append(fsec)
             except:
-                completions.append("N/A")
+                mins.append("?")
+                secs.append("?")
+        elif timeoption=="s":
+            try:
+                ftime = (skycryptdungeons["dungeons"][fvm]["floors"][f"{n}"]["stats"]["fastest_time_s"])/1000
+                fmin = math.floor(ftime/60)
+                fsec = math.ceil(ftime - 60*fmin)
+                mins.append(fmin)
+                secs.append(fsec)
+            except:
+                mins.append("?")
+                secs.append("?")
 
-            print(mins)
-            print(secs)
-            print(completions)
+    def floorcompletions(n, catatype):
+        fvm = ""
+        if catatype=="f":
+            fvm = "catacombs"
+        if catatype=="m":
+            fvm = "master_catacombs"
 
-        #user can choose between s+ and s, which will be used to determine fastest time for s/s+
-        if fastesttime=="splus":
-            for n in floors:
-                floordata(n, 's+')
-        elif fastesttime=="s":
-            for n in floors:
-                floordata(n, 's')
+        try:
+            fcompletions = skycryptdungeons["dungeons"][fvm]["floors"][f"{n}"]["stats"]["tier_completions"]
+            completions.append(fcompletions)
+        except:
+            completions.append("N/A")
+
+    for n in floors:
+        floordata(n, 's', 'f')
+    for n in floors:
+        floordata(n, 's+', 'f')
+    for n in floors:
+        floordata(n, 's', 'm')
+    for n in floors:
+        floordata(n, 's+', 'm')
+    for n in floors:
+        floorcompletions(n, 'f')
+    for n in floors:
+        floorcompletions(n, 'm')
 
 
+    #procedure to calculate score to give to user based on catacombs level and secrets
+    def calculate_score(catalvl, secrets):
+        global catalvlscore, secretsscore, bonus, total
 
+        if catalvl>=38:
+            temp2 = catalvl-38
+            catabonus = math.floor((temp2))
+        else:
+            catalvlscore = math.floor((catalvl/38)*150)
+            catabonus = 0
 
-        #procedure to calculate score to give to user based on catacombs level and secrets
-        def calculate_score(catalvl, secrets):
-            global catalvlscore, secretsscore, bonus, total
+        if secrets>=12000:
+            temp = secrets-12000
+            secretsscore = 150
+            secretbonus = math.floor(temp/5000)
+        else:
+            secretsscore = math.floor((secrets/12000)*150)
+            secretbonus = 0
 
-            if catalvl>=38:
-                temp2 = catalvl-38
-                catabonus = math.floor((temp2))
-            else:
-                catalvlscore = math.floor((catalvl/38)*150)
-                catabonus = 0
+        bonus = catabonus + secretbonus
+        total = catalvlscore + secretsscore + bonus
 
-            if secrets>=12000:
-                temp = secrets-12000
-                secretsscore = 150
-                secretbonus = math.floor(temp/5000)
-            else:
-                secretsscore = math.floor((secrets/12000)*150)
-                secretbonus = 0
+        return catalvlscore, secretsscore, bonus, total
 
-            bonus = catabonus + secretbonus
-            total = catalvlscore + secretsscore + bonus
-
-            return catalvlscore, secretsscore, bonus, total
-
-        #procedure to select a certain image based on the score the user recieves
-        def getscoreimage(total):
-            global scoreimage
+    #procedure to select a certain image based on the score the user recieves
+    def getscoreimage(total):
+        global scoreimage
+        scoreimage = "s+"
+        if total <= 99:
+            scoreimage = "d"
+        elif total in range(100, 160):
+            scoreimage = "c"
+        elif total in range(160, 230):
+            scoreimage = "b"
+        elif total in range(230, 270):
+            scoreimage = "a"
+        elif total in range(270, 300):
+            scoreimage = "s"
+        elif total >= 300:
             scoreimage = "s+"
-            if total <= 99:
-                scoreimage = "d"
-            elif total in range(100, 160):
-                scoreimage = "c"
-            elif total in range(160, 230):
-                scoreimage = "b"
-            elif total in range(230, 270):
-                scoreimage = "a"
-            elif total in range(270, 300):
-                scoreimage = "s"
-            elif total >= 300:
-                scoreimage = "s+"
-            return scoreimage
+        return scoreimage
 
-        calculate_score(catalvl, secrets)
-        #sending all the variables to the webpage
-        return render_template(
-            "stats.html",
-            username=formattedusername,
-            profile=profile,
-            uuid=uuid,
+    calculate_score(catalvl, secrets)
 
-            guild=guild,
+    print(mins)
+    print(secs)
 
-            catalvl=catalvl, secrets=secrets, weight=weight,
-            secretsscore = secretsscore, bonus=bonus, catalvlscore=catalvlscore, total=total,
-            scoreimage=getscoreimage(total),
-            f1min=mins[0], f1sec=secs[0], f1completions=completions[0],
-            f2min=mins[1], f2sec=secs[1], f2completions=completions[1],
-            f3min=mins[2], f3sec=secs[2], f3completions=completions[2],
-            f4min=mins[3], f4sec=secs[3], f4completions=completions[3],
-            f5min=mins[4], f5sec=secs[4], f5completions=completions[4],
-            f6min=mins[5], f6sec=secs[5], f6completions=completions[5],
-            f7min=mins[6], f7sec=secs[6], f7completions=completions[6],
+    #sending all the variables to the webpage
+    return render_template(
+        "stats.html",
+        username=formattedusername,
+        profile=profile,
+        uuid=uuid,
 
-        )
+        guild=guild,
+
+        catalvl=catalvl, secrets=secrets, weight=weight,
+        secretsscore = secretsscore, bonus=bonus, catalvlscore=catalvlscore, total=total,
+        scoreimage=getscoreimage(total),
+        sf1min=mins[0], sf1sec=secs[0], spf1min=mins[7], spf1sec=secs[7],
+        sf2min=mins[1], sf2sec=secs[1], spf2min=mins[8], spf2sec=secs[8],
+        sf3min=mins[2], sf3sec=secs[2], spf3min=mins[9], spf3sec=secs[9],
+        sf4min=mins[3], sf4sec=secs[3], spf4min=mins[10], spf4sec=secs[10],
+        sf5min=mins[4], sf5sec=secs[4], spf5min=mins[11], spf5sec=secs[11],
+        sf6min=mins[5], sf6sec=secs[5], spf6min=mins[12], spf6sec=secs[12],
+        sf7min=mins[6], sf7sec=secs[6], spf7min=mins[13], spf7sec=secs[13],
+
+        sm1min=mins[14], sm1sec=secs[14], spm1min=mins[21], spm1sec=secs[21],
+        sm2min=mins[15], sm2sec=secs[15], spm2min=mins[22], spm2sec=secs[22],
+        sm3min=mins[16], sm3sec=secs[16], spm3min=mins[23], spm3sec=secs[23],
+        sm4min=mins[17], sm4sec=secs[17], spm4min=mins[24], smf4sec=secs[24],
+        sm5min=mins[18], sm5sec=secs[18], spm5min=mins[25], smf5sec=secs[25],
+        sm6min=mins[19], sm6sec=secs[19], spm6min=mins[26], smf6sec=secs[26],
+        sm7min=mins[20], sm7sec=secs[20], spm7min=mins[27], smf7sec=secs[27],
+
+        f1completions=completions[0], m1completions=completions[7],
+        f2completions=completions[1], m2completions=completions[8],
+        f3completions=completions[2], m3completions=completions[9],
+        f4completions=completions[3], m4completions=completions[10],
+        f5completions=completions[4], m5completions=completions[11],
+        f6completions=completions[5], m6completions=completions[12],
+        f7completions=completions[6], m7completions=completions[13]
+    )
 
 @app.route("/help")
 def help():

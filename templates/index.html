@@ -2,40 +2,45 @@
 
 {% block index %}
 <script type="text/javascript">
-    function goToPage(){
+    function goToPage() {
         var username = $('input[name=username]').val();
         var profile = $('input[name=profile]').val();
-        window.location.href = "/stats/"+username+"/"+profile;
+        window.location.href = "/stats/" + username + "/" + profile;
     }
 </script>
 
 <div style="padding-left:96px;width:100%;overflow:hidden;">
-    <form method="get">
-        <div class="row">
-            <p><input style="line-height:40px" class="searchBar" size="30" type="text" name="username" placeholder="username" data-val-required="Username is required." required></p>
-            <p style="margin-left:15px"><input style="line-height:40px" class="searchBar" size="30" type="text" name="profile" placeholder="profile" data-val-required="Profile name is required." required></p>
-            <!--<p style="margin-left:15px;">
-                <label class="pageText" for="time">Fastest Time:</label>
-                <select id="time" name="time" required>
-                    <option value="s">s</option>
-                    <option value="splus">s+</option>
-                </select>
-            </p>-->
-            <p style="text-align:center;margin-left:15px;"><input style="line-height:40px" class="searchBtn" type="button" onclick="goToPage();" value="search"></p>
-        </div>
-    </form>
+    <div class="row">
+        <p><input style="line-height:40px" class="searchBar" size="30" type="text" name="username"
+                  placeholder="username" data-val-required="Username is required." required></p>
+        <p style="margin-left:15px"><input style="line-height:40px" class="searchBar" size="30" type="text"
+                                           name="profile" placeholder="profile"
+                                           data-val-required="Profile name is required." required></p>
+        <!--<p style="margin-left:15px;">
+            <label class="pageText" for="time">Fastest Time:</label>
+            <select id="time" name="time" required>
+                <option value="s">s</option>
+                <option value="splus">s+</option>
+            </select>
+        </p>-->
+        <p style="text-align:center;margin-left:15px"><input style="line-height:40px" class="searchBtn" onclick="goToPage();" type="button" value="search"></p>
+    </div>
 </div>
 <div style="padding-top:40px">
     <h1 style="margin-left:80px;" class="pageTitle">what is my profile name?</h1>
-    <p style="margin-left:100px;" class="pageText">To find your profile name, you can check ingame through the profile management menu.
-        <br> You can also input your username below to show your profile names (separated by a space if you have multiple).</p>
+    <p style="margin-left:100px;" class="pageText">To find your profile name, you can check ingame through the profile
+        management menu.
+        <br> You can also input your username below to show your profile names (separated by a space if you have
+        multiple).</p>
 </div>
 <div style="padding-left:96px;width:100%;overflow:hidden;">
     <!-- form for inputting username to find profile names -->
     <form method="post">
         <div class="row" style="">
-            <p><input style="line-height:40px" class="searchBar" size="30" type="text" name="username" placeholder="username" data-val-required="Username is required." required></p>
-            <p style="text-align:center;margin-left:15px;"><input style="line-height:40px" class="searchBtn" type="submit" value="search"></p>
+            <p><input style="line-height:40px" class="searchBar" size="30" type="text" name="username"
+                      placeholder="username" data-val-required="Username is required." required></p>
+            <p style="text-align:center;margin-left:15px;"><input style="line-height:40px" class="searchBtn"
+                                                                  type="submit" value="search"></p>
         </div>
     </form>
     <!-- {{profiles}} is where the variable "profiles" will be displayed -->
