@@ -16,7 +16,6 @@
     margin-top:10px;
     color: white;
     margin-right: 20px;
-
 }
 
 button:focus, button:active {
@@ -56,6 +55,24 @@ a:link, a:visited {
 a:hover, a:active {
     color: white;
     text-decoration: none;
+}
+
+.featureBox {
+    background-color:#444444;
+    height: 100px;
+    width: 210px;
+}
+
+.featureText {
+    font-family: 'Open Sans';
+    line-height: 10px;
+    color:white;
+}
+
+.featureIcon {
+    outline:none;
+    border:none;
+    background-color:#444444;
 }
 
 .searchBar {

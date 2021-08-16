@@ -63,4 +63,33 @@
 <!--    <p class="pageText" style="font-size:2em">{{profiles}}</p>-->
 <!--</div>-->
 
+<div class="row" style="padding-left:96px; padding-top: 50px">
+{% for data in featuredata: %}
+{% set ign = data["ign"] %}
+{% set profile = data["profile"] %}
+{% set icon = data["icon"] %}
+{% set uuid = data["uuid"] %}
+{% set role = data["role"] %}
+<a href="/stats/{{ign}}/{{profile}}">
+    <div class="featureBox row" style="margin-right:30px">
+        <img style="margin-top:20px;margin-left: 20px" src="https://crafatar.com/avatars/{{uuid}}" height="60px">
+        <div style="margin-top:25px; margin-left: 10px">
+            <p class="featureText">{{ign}}</p>
+            <p class="featureText">{{profile}}</p>
+            <p class="featureText" style="margin-left:80px"><button class="featureIcon" id="feature_{{ign}}"><i style="color:white" class="fas fa-{{icon}}"></i></button></p>
+        </div>
+    </div>
+</a>
+<script>
+    tippy('#feature_{{ign}}', {
+        content: "{{role}}",
+        placement: 'right',
+        trigger: 'mouseenter',
+        arrow: false,
+        offset: [0,0],
+    });
+</script>
+
+{% endfor %}
+</div>
 {% endblock %}

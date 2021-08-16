@@ -1,6 +1,6 @@
 #importing libraries for webpage, api, data files, and more math operations
 from flask import Flask, redirect, url_for, render_template, request
-import aboutdata, requests, math
+import aboutdata, featuredstats, requests, math
 
 app = Flask(__name__)
 
@@ -23,27 +23,27 @@ def getlastprofile(username):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     #get form data on "help!" page where user can find the name of their profile by inputting their username
-    if request.method=='POST':
-        username = request.form.get('username')
-        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
-        profiles = skycryptprofiledata["profiles"]
-        #creates a list of their profiles based on API data
-        profilelist = []
-        for i in profiles.keys():
-            # print(profiles[i]["cute_name"])
-            profilelist.append(profiles[i]["cute_name"])
-        # print(profilelist)
-        #formats profilelist to display on webpage
-        profilelistlength = len(profilelist)
-        profilelisttemp = ""
-        for b in range(profilelistlength):
-            if b == profilelistlength-1:
-                profilelisttemp = profilelisttemp + profilelist[b]
-            else:
-                profilelisttemp = profilelisttemp + profilelist[b] + ", "
-        profilelistformatted = "Profiles: " + profilelisttemp
-        return render_template("index.html", profiles=profilelistformatted)
-    return render_template("index.html")
+    # if request.method=='POST':
+    #     username = request.form.get('username')
+    #     skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+    #     profiles = skycryptprofiledata["profiles"]
+    #     #creates a list of their profiles based on API data
+    #     profilelist = []
+    #     for i in profiles.keys():
+    #         # print(profiles[i]["cute_name"])
+    #         profilelist.append(profiles[i]["cute_name"])
+    #     # print(profilelist)
+    #     #formats profilelist to display on webpage
+    #     profilelistlength = len(profilelist)
+    #     profilelisttemp = ""
+    #     for b in range(profilelistlength):
+    #         if b == profilelistlength-1:
+    #             profilelisttemp = profilelisttemp + profilelist[b]
+    #         else:
+    #             profilelisttemp = profilelisttemp + profilelist[b] + ", "
+    #     profilelistformatted = "Profiles: " + profilelisttemp
+    #     return render_template("index.html", profiles=profilelistformatted)
+    return render_template("index.html", featuredata=featuredstats.featuredata())
 
 
 @app.route('/stats/<username>/<profile>', methods=['GET', 'POST'])
@@ -92,7 +92,12 @@ def stats(username, profile):
         catalvl = skycryptdungeons["dungeons"]["catacombs"]["level"]["level"]
     except:
         catalvl = 0
-    secrets = skycryptdungeons["dungeons"]["secrets_found"]
+
+    try:
+        secrets = skycryptdungeons["dungeons"]["secrets_found"]
+    except:
+        secrets = 0
+
     #try to find dungeon weight through api; if unable to find set variable weight to N/A
     try:
         weight = round((skycryptdungeons["dungeons"]["dungeonsWeight"]), 2)
