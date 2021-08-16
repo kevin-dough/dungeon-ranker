@@ -46,19 +46,41 @@ def stats(username, profile):
     #SkyCrypt API https://sky.shiiyu.moe/api/v2/
     skycryptprofile = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
 
+
+
     #guild info
     profiles = skycryptprofile["profiles"]
     firstprofile = list(profiles.keys())[0]
 
-    name = profiles[firstprofile]["data"]["guild"]["name"]
-    tag = profiles[firstprofile]["data"]["guild"]["tag"]
-    level = profiles[firstprofile]["data"]["guild"]["level"]
-    rank = profiles[firstprofile]["data"]["guild"]["rank"]
-    members = profiles[firstprofile]["data"]["guild"]["members"]
-    guild = {"name": name, "tag": tag, "level": level, "rank": rank, "members": members}
+    try:
+        name = profiles[firstprofile]["data"]["guild"]["name"]
+        tag = profiles[firstprofile]["data"]["guild"]["tag"]
+        level = profiles[firstprofile]["data"]["guild"]["level"]
+        rank = profiles[firstprofile]["data"]["guild"]["rank"]
+        members = profiles[firstprofile]["data"]["guild"]["members"]
+        exist = "block"
+    except:
+        name = "N/A"
+        tag = "N/A"
+        level = "N/A"
+        rank = "N/A"
+        members = "N/A"
+        exist = "none"
+
+    guild = {"name": name, "tag": tag, "level": level, "rank": rank, "members": members, "exist": exist}
+
+    #profiles list
+    profilelist=[]
+
+    for i in profiles.keys():
+        print(profiles[i]["cute_name"])
+        profilelist.append(profiles[i]["cute_name"])
 
     skycryptdungeons = requests.get(f"https://sky.shiiyu.moe/api/v2/dungeons/{username}/{profile}").json()
-    catalvl = skycryptdungeons["dungeons"]["catacombs"]["level"]["level"]
+    try:
+        catalvl = skycryptdungeons["dungeons"]["catacombs"]["level"]["level"]
+    except:
+        catalvl = 0
     secrets = skycryptdungeons["dungeons"]["secrets_found"]
     #try to find dungeon weight through api; if unable to find set variable weight to N/A
     try:
@@ -183,6 +205,7 @@ def stats(username, profile):
         uuid=uuid,
 
         guild=guild,
+        profilelist=profilelist,
 
         catalvl=catalvl, secrets=secrets, weight=weight,
         secretsscore = secretsscore, bonus=bonus, catalvlscore=catalvlscore, total=total,

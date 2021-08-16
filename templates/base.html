@@ -58,6 +58,10 @@
 
 
 <div style="padding-top:8%"></div>
+
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+
 <!-- these are variable blocks which are placeholders for more html which would go under the navigation bar -->
 {% block index %}
 {% endblock %}
@@ -73,18 +77,4 @@
 
 {% block testapi %}
 {% endblock %}
-
-<script src="https://unpkg.com/@popperjs/core@2"></script>
-<script src="https://unpkg.com/tippy.js@6"></script>
-
-<script>
-    tippy('#guildInfo', {
-        content: "<h1 style='font-size:1.5em'><strong>Tag:</strong> {{guild.tag}}<br><strong>Level:</strong> {{guild.leve}}<br><strong>Members:</strong> {{guild.members}}<br><strong>Rank:</strong> {{guild.rank}}</div></h1>",
-        placement: 'bottom',
-        allowHTML: 'true',
-    });
-</script>
-
-
-
 </body>
