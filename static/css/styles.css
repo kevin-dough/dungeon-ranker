@@ -19,6 +19,11 @@
 
 }
 
+button:focus, button:active {
+    border:none;
+    outline:none;
+}
+
 .pageTitle {
     font-family: "Open Sans";
     font-style: italic;
