@@ -22,6 +22,19 @@ def getlastprofile(username):
 @app.route('/home', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    if request.method=='POST':
+        username = request.form.get('username')
+        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+        profiles = skycryptprofiledata["profiles"]
+        lastprofile = ""
+        lastsave = 0
+        for i in profiles.keys():
+            if (profiles[i]["last_save"] > lastsave):
+                lastsave = profiles[i]["last_save"]
+                lastprofile = profiles[i]["cute_name"]
+
+        url = "/stats/" + username + "/" + lastprofile
+        return redirect(url)
     #get form data on "help!" page where user can find the name of their profile by inputting their username
     # if request.method=='POST':
     #     username = request.form.get('username')

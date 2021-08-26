@@ -1,46 +1,14 @@
 {% extends "base.html" %}
 
 {% block index %}
-<script type="text/javascript">
-    function goToPage() {
-        var username = $('input[name=username]').val();
-        if (username == ""){
-            return
-        } else {
-            var profileurl = "/lastprofile/" + username
-            var profile = ""
-            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttp = new XMLHttpRequest();
-            } else {// code for IE6, IE5
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    profile = xmlhttp.responseText;
-                }
-            }
-            xmlhttp.open("GET", profileurl, false);
-            xmlhttp.send();
-            // var profile = $('input[name=profile]').val();
-            window.location.href = "/stats/" + username + "/" + profile;
-        }
-    }
-</script>
-
 <div style="padding-left:96px;width:100%;overflow:hidden;">
-    <div class="row">
-        <p><input style="line-height:40px" class="searchBar" size="30" type="text" name="username" placeholder="username"></p>
-<!--        <p style="margin-left:15px"><input style="line-height:40px" class="searchBar" size="30" type="text" name="profile" placeholder="profile" data-val-required="Profile name is required." required></p>-->
-        <!--<p style="margin-left:15px;">
-            <label class="pageText" for="time">Fastest Time:</label>
-            <select id="time" name="time" required>
-                <option value="s">s</option>
-                <option value="splus">s+</option>
-            </select>
-        </p>-->
-        <p style="text-align:center;margin-left:15px"><input style="line-height:40px;cursor: pointer;" class="searchBtn" onclick="goToPage();" type="button" value="search"></p>
-    </div>
-    <p class="scoreBoxText">click search once, it takes like 10 seconds to load</p>
+
+    <form method="post">
+        <div class="row">
+            <p><input style="line-height:40px" class="searchBar" size="30" type="text" name="username" placeholder="username" required></p>
+            <p style="text-align:center;margin-left:15px"><input style="line-height:40px;cursor: pointer;" class="searchBtn" type="submit" value="search"></p>
+        </div>
+    </form>
 </div>
 <!--<div style="padding-top:40px">-->
 <!--    <h1 style="margin-left:80px;" class="pageTitle">what is my profile name?</h1>-->
@@ -63,33 +31,36 @@
 <!--    <p class="pageText" style="font-size:2em">{{profiles}}</p>-->
 <!--</div>-->
 
-<div class="row" style="padding-left:96px; padding-top: 50px">
-{% for data in featuredata: %}
-{% set ign = data["ign"] %}
-{% set profile = data["profile"] %}
-{% set icon = data["icon"] %}
-{% set uuid = data["uuid"] %}
-{% set role = data["role"] %}
-<a href="/stats/{{ign}}/{{profile}}">
-    <div class="featureBox row" style="margin-right:30px">
-        <img style="margin-top:20px;margin-left: 20px" src="https://crafatar.com/avatars/{{uuid}}" height="60px">
-        <div style="margin-top:25px; margin-left: 10px">
-            <p class="featureText">{{ign}}</p>
-            <p class="featureText">{{profile}}</p>
-            <p class="featureText" style="margin-left:80px"><button class="featureIcon" id="feature_{{ign}}"><i style="color:white" class="fas fa-{{icon}}"></i></button></p>
+<div class="row" style="padding-left:96px; padding-top: 50px;width:100%;overflow:hidden;">
+    {% for data in featuredata: %}
+    {% set ign = data["ign"] %}
+    {% set profile = data["profile"] %}
+    {% set icon = data["icon"] %}
+    {% set uuid = data["uuid"] %}
+    {% set role = data["role"] %}
+    <a href="/stats/{{ign}}/{{profile}}">
+        <div class="featureBox row" style="margin-right:30px">
+            <img style="margin-top:20px;margin-left: 20px" src="https://crafatar.com/avatars/{{uuid}}" height="60px">
+            <div style="margin-top:25px; margin-left: 10px">
+                <p class="featureText">{{ign}}</p>
+                <p class="featureText">{{profile}}</p>
+                <p class="featureText" style="margin-left:80px">
+                    <button class="featureIcon" id="feature_{{ign}}"><i style="color:white" class="fas fa-{{icon}}"></i>
+                    </button>
+                </p>
+            </div>
         </div>
-    </div>
-</a>
-<script>
-    tippy('#feature_{{ign}}', {
-        content: "{{role}}",
-        placement: 'right',
-        trigger: 'mouseenter',
-        arrow: false,
-        offset: [0,0],
-    });
-</script>
+    </a>
+    <script>
+        tippy('#feature_{{ign}}', {
+            content: "{{role}}",
+            placement: 'right',
+            trigger: 'mouseenter',
+            arrow: false,
+            offset: [0, 0],
+        });
+    </script>
 
-{% endfor %}
+    {% endfor %}
 </div>
 {% endblock %}

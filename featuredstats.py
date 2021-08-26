@@ -16,5 +16,7 @@ def sea7wa():
     info = {"ign": ign, "profile": profile, "icon": icon, "uuid":uuid, "role": role}
     return info
 
+
+
 def featuredata():
     return [crazyudon(), sea7wa()]
