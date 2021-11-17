@@ -6,24 +6,13 @@ app = Flask(__name__)
 
 #Mojang API and SkyCrypt API were used in the making of this project.
 
-@app.route('/lastprofile/<username>', methods=['GET', 'POST'])
-def getlastprofile(username):
-    skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
-    profiles = skycryptprofiledata["profiles"]
-    lastprofile = ""
-    lastsave = 0
-    for i in profiles.keys():
-        if (profiles[i]["last_save"] > lastsave):
-            lastsave = profiles[i]["last_save"]
-            lastprofile = profiles[i]["cute_name"]
-    return lastprofile
-
 #route for homepage
 @app.route('/home', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method=='POST':
         username = request.form.get('username')
+        print("LOG > form received")
         skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
         profiles = skycryptprofiledata["profiles"]
         lastprofile = ""
@@ -34,6 +23,7 @@ def home():
                 lastprofile = profiles[i]["cute_name"]
 
         url = "/stats/" + username + "/" + lastprofile
+        print("LOG > loading url")
         return redirect(url)
     #get form data on "help!" page where user can find the name of their profile by inputting their username
     # if request.method=='POST':
@@ -70,7 +60,7 @@ def stats(username, profile):
     #SkyCrypt API https://sky.shiiyu.moe/api/v2/
     skycryptprofile = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
 
-
+    print("LOG > API set")
 
     #guild info
     profiles = skycryptprofile["profiles"]
@@ -92,6 +82,8 @@ def stats(username, profile):
         exist = "none"
 
     guild = {"name": name, "tag": tag, "level": level, "rank": rank, "members": members, "exist": exist}
+
+    print("LOG > guild info loaded")
 
     #profiles list
     profilelist=[]
@@ -152,6 +144,8 @@ def stats(username, profile):
                 mins.append("?")
                 secs.append("?")
 
+    print("LOG > floordata loaded")
+
     def floorcompletions(n, catatype):
         fvm = ""
         if catatype=="f":
@@ -178,6 +172,7 @@ def stats(username, profile):
     for n in floors:
         floorcompletions(n, 'm')
 
+    print("LOG > floorcompletions loaded")
 
     #procedure to calculate score to give to user based on catacombs level and secrets
     def calculate_score(catalvl, secrets):
@@ -186,6 +181,7 @@ def stats(username, profile):
         if catalvl>=38:
             temp2 = catalvl-38
             catabonus = math.floor((temp2))
+            catalvlscore = 150
         else:
             catalvlscore = math.floor((catalvl/38)*150)
             catabonus = 0
@@ -223,9 +219,11 @@ def stats(username, profile):
 
     calculate_score(catalvl, secrets)
 
+    print("LOG > score calculated")
+
     # print(mins)
     # print(secs)
-
+    print("LOG > data being sent")
     #sending all the variables to the webpage
     return render_template(
         "stats.html",

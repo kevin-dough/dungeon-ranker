@@ -17,6 +17,14 @@ def sea7wa():
     return info
 
 
+def mineescape():
+    ign = "mineescape"
+    profile = "Tomato"
+    icon = "user-friends"
+    uuid = "db0a2550-9f05-44ca-a3f2-b13a3318e5d7"
+    role = "Friend"
+    info = {"ign": ign, "profile": profile, "icon": icon, "uuid":uuid, "role": role}
+    return info
 
 def featuredata():
-    return [crazyudon(), sea7wa()]
+    return [crazyudon(), sea7wa(), mineescape()]
