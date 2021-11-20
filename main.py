@@ -284,14 +284,16 @@ def essence():
             if (profiles[i]["last_save"] > lastsave):
                 lastsave = profiles[i]["last_save"]
                 lastprofile = profiles[i]["profile_id"]
-
-        undead = profiles[lastprofile]["raw"]["essence_undead"]
-        wither = profiles[lastprofile]["raw"]["essence_wither"]
-        dragon = profiles[lastprofile]["raw"]["essence_dragon"]
-        spider = profiles[lastprofile]["raw"]["essence_spider"]
-        ice = profiles[lastprofile]["raw"]["essence_ice"]
-        gold = profiles[lastprofile]["raw"]["essence_gold"]
-        diamond = profiles[lastprofile]["raw"]["essence_diamond"]
+        try:
+            undead = profiles[lastprofile]["raw"]["essence_undead"]
+            wither = profiles[lastprofile]["raw"]["essence_wither"]
+            dragon = profiles[lastprofile]["raw"]["essence_dragon"]
+            spider = profiles[lastprofile]["raw"]["essence_spider"]
+            ice = profiles[lastprofile]["raw"]["essence_ice"]
+            gold = profiles[lastprofile]["raw"]["essence_gold"]
+            diamond = profiles[lastprofile]["raw"]["essence_diamond"]
+        except:
+            message = "turn on inv api or something"
 
         return render_template("essence.html",
                                undead=undead,
@@ -300,7 +302,8 @@ def essence():
                                spider=spider,
                                ice=ice,
                                gold=gold,
-                               diamond=diamond)
+                               diamond=diamond,
+                               message=message)
 
     return render_template("essence.html")
 
