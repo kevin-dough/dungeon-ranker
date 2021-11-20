@@ -284,6 +284,8 @@ def essence():
             if (profiles[i]["last_save"] > lastsave):
                 lastsave = profiles[i]["last_save"]
                 lastprofile = profiles[i]["profile_id"]
+
+        message, undead, wither, dragon, spider, ice, gold, diamond = ""
         try:
             undead = profiles[lastprofile]["raw"]["essence_undead"]
             wither = profiles[lastprofile]["raw"]["essence_wither"]
