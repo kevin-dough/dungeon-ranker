@@ -262,14 +262,47 @@ def stats(username, profile):
         f7completions=completions[6], m7completions=completions[13]
     )
 
-@app.route("/help")
-def help():
-    return render_template("help.html")
+@app.route("/info")
+def info():
+    return render_template("info.html")
 
 @app.route("/about")
 def about():
     #uses lists and definitions from aboutdata.py file to display data on webpage
     return render_template("about.html", groupdatalist=aboutdata.groupdata())
+
+@app.route('/essence', methods=['GET', 'POST'])
+def essence():
+    if request.method=='POST':
+        username = request.form.get('username')
+        print("LOG > form received")
+        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+        profiles = skycryptprofiledata["profiles"]
+        lastprofile = ""
+        lastsave = 0
+        for i in profiles.keys():
+            if (profiles[i]["last_save"] > lastsave):
+                lastsave = profiles[i]["last_save"]
+                lastprofile = profiles[i]["profile_id"]
+
+        undead = profiles[lastprofile]["raw"]["essence_undead"]
+        wither = profiles[lastprofile]["raw"]["essence_wither"]
+        dragon = profiles[lastprofile]["raw"]["essence_dragon"]
+        spider = profiles[lastprofile]["raw"]["essence_spider"]
+        ice = profiles[lastprofile]["raw"]["essence_ice"]
+        gold = profiles[lastprofile]["raw"]["essence_gold"]
+        diamond = profiles[lastprofile]["raw"]["essence_diamond"]
+
+        return render_template("essence.html",
+                               undead=undead,
+                               wither=wither,
+                               dragon=dragon,
+                               spider=spider,
+                               ice=ice,
+                               gold=gold,
+                               diamond=diamond)
+
+    return render_template("essence.html")
 
 
 if __name__ == "__main__":
