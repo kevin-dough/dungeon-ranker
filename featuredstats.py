@@ -25,6 +25,6 @@ def mineescape():
     role = "Friend"
     info = {"ign": ign, "profile": profile, "icon": icon, "uuid":uuid, "role": role}
     return info
-#
+#test
 def featuredata():
     return [crazyudon(), sea7wa(), mineescape()]
