@@ -1,6 +1,6 @@
 #importing libraries for webpage, api, data files, and more math operations
 from flask import Flask, redirect, url_for, render_template, request
-import aboutdata, featuredstats, requests, math
+import aboutdata, featuredstats, requests, math, methods
 
 app = Flask(__name__)
 
@@ -13,39 +13,15 @@ def home():
     if request.method=='POST':
         username = request.form.get('username')
         print("LOG > form received")
-        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
-        profiles = skycryptprofiledata["profiles"]
-        lastprofile = ""
-        lastsave = 0
-        for i in profiles.keys():
-            if (profiles[i]["last_save"] > lastsave):
-                lastsave = profiles[i]["last_save"]
-                lastprofile = profiles[i]["cute_name"]
-
-        url = "/stats/" + username + "/" + lastprofile
-        print("LOG > loading url")
-        return redirect(url)
-    #get form data on "help!" page where user can find the name of their profile by inputting their username
-    # if request.method=='POST':
-    #     username = request.form.get('username')
-    #     skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
-    #     profiles = skycryptprofiledata["profiles"]
-    #     #creates a list of their profiles based on API data
-    #     profilelist = []
-    #     for i in profiles.keys():
-    #         # print(profiles[i]["cute_name"])
-    #         profilelist.append(profiles[i]["cute_name"])
-    #     # print(profilelist)
-    #     #formats profilelist to display on webpage
-    #     profilelistlength = len(profilelist)
-    #     profilelisttemp = ""
-    #     for b in range(profilelistlength):
-    #         if b == profilelistlength-1:
-    #             profilelisttemp = profilelisttemp + profilelist[b]
-    #         else:
-    #             profilelisttemp = profilelisttemp + profilelist[b] + ", "
-    #     profilelistformatted = "Profiles: " + profilelisttemp
-    #     return render_template("index.html", profiles=profilelistformatted)
+        message = ""
+        try:
+            lastprofile = methods.lastprofile_cutename(username)
+            url = "/stats/" + username + "/" + lastprofile
+            print("LOG > loading url")
+            return redirect(url)
+        except:
+            message = "no skyblock profiles"
+        return render_template("index.html", featuredata=featuredstats.featuredata())
     return render_template("index.html", featuredata=featuredstats.featuredata())
 
 
@@ -276,14 +252,13 @@ def essence():
     if request.method=='POST':
         username = request.form.get('username')
         print("LOG > form received")
-        skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
-        profiles = skycryptprofiledata["profiles"]
-        lastprofile = ""
-        lastsave = 0
-        for i in profiles.keys():
-            if (profiles[i]["last_save"] > lastsave):
-                lastsave = profiles[i]["last_save"]
-                lastprofile = profiles[i]["profile_id"]
+        try:
+            skycryptprofiledata = requests.get(f"https://sky.shiiyu.moe/api/v2/profile/{username}").json()
+            profiles = skycryptprofiledata["profiles"]
+            lastprofile = methods.lastprofile_id(username)
+        except:
+            message = "no skyblock profiles"
+            return render_template("essence.html", message=message)
 
         message = undead = wither = dragon = spider = ice = gold = diamond = ""
         try:

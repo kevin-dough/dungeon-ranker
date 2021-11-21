@@ -1,66 +1,52 @@
 {% extends "base.html" %}
 
 {% block index %}
-<div style="padding-left:96px;width:100%;overflow:hidden;">
-
-    <form method="post">
-        <div class="row">
-            <p><input style="line-height:40px" class="searchBar" size="30" type="text" name="username" placeholder="username" required></p>
-            <p style="text-align:center;margin-left:15px"><input style="line-height:40px;cursor: pointer;" class="searchBtn" type="submit" value="search"></p>
+<body style="background-image: url('/static/images/backgrounds/background_{{ range(1, 8) | random }}.png');background-position:top 65px center;background-repeat: no-repeat;">
+<div class="row justify-content-center" style="overflow:hidden; max-width:100%; padding-top:8%">
+    <div class="indexBox">
+        <div>
+        <div style="padding-left:35%;padding-top:5%">
+            <form method="post">
+                <div class="row">
+                    <p><input style="line-height:40px" class="searchBar" size="30" type="text" name="username" placeholder="username" required></p>
+                    <p style="text-align:center;margin-left:15px"><input style="line-height:40px;cursor: pointer;" class="searchBtn" type="submit" value="search"></p>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
-<!--<div style="padding-top:40px">-->
-<!--    <h1 style="margin-left:80px;" class="pageTitle">what is my profile name?</h1>-->
-<!--    <p style="margin-left:100px;" class="pageText">To find your profile name, you can check ingame through the profile-->
-<!--        management menu.-->
-<!--        <br> You can also input your username below to show your profile names (separated by a space if you have-->
-<!--        multiple).</p>-->
-<!--</div>-->
-<!--<div style="padding-left:96px;width:100%;overflow:hidden;">-->
-<!--    &lt;!&ndash; form for inputting username to find profile names &ndash;&gt;-->
-<!--    <form method="post">-->
-<!--        <div class="row" style="">-->
-<!--            <p><input style="line-height:40px" class="searchBar" size="30" type="text" name="username"-->
-<!--                      placeholder="username" data-val-required="Username is required." required></p>-->
-<!--            <p style="text-align:center;margin-left:15px;"><input style="line-height:40px;cursor: pointer;" class="searchBtn"-->
-<!--                                                                  type="submit" value="search"></p>-->
-<!--        </div>-->
-<!--    </form>-->
-<!--    &lt;!&ndash; {{profiles}} is where the variable "profiles" will be displayed &ndash;&gt;-->
-<!--    <p class="pageText" style="font-size:2em">{{profiles}}</p>-->
-<!--</div>-->
+        <div class="row" style="padding-left:7.5%; margin-top: 50px; width:1000px;overflow:hidden;overflow-wrap: break-word;">
+            {% for data in featuredata: %}
+            {% set ign = data["ign"] %}
+            {% set profile = data["profile"] %}
+            {% set icon = data["icon"] %}
+            {% set uuid = data["uuid"] %}
+            {% set role = data["role"] %}
+            <a href="/stats/{{ign}}/{{profile}}" style="margin-bottom:15px">
+                <div class="featureBox row" style="margin-right:30px">
+                    <img style="margin-top:20px;margin-left: 20px" src="https://crafatar.com/avatars/{{uuid}}" height="60px">
+                    <div style="margin-top:25px; margin-left: 10px">
+                        <p class="featureText">{{ign}}</p>
+                        <p class="featureText">{{profile}}</p>
+                        <p class="featureText" style="margin-left:80px">
+                            <button class="featureIcon" id="feature_{{ign}}"><i style="color:white" class="fas fa-{{icon}}"></i>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <script>
+                tippy('#feature_{{ign}}', {
+                    content: "{{role}}",
+                    placement: 'right',
+                    trigger: 'mouseenter',
+                    arrow: false,
+                    offset: [0, 0],
+                });
+            </script>
 
-<div class="row" style="padding-left:96px; padding-top: 50px;width:100%;overflow:hidden;">
-    {% for data in featuredata: %}
-    {% set ign = data["ign"] %}
-    {% set profile = data["profile"] %}
-    {% set icon = data["icon"] %}
-    {% set uuid = data["uuid"] %}
-    {% set role = data["role"] %}
-    <a href="/stats/{{ign}}/{{profile}}">
-        <div class="featureBox row" style="margin-right:30px">
-            <img style="margin-top:20px;margin-left: 20px" src="https://crafatar.com/avatars/{{uuid}}" height="60px">
-            <div style="margin-top:25px; margin-left: 10px">
-                <p class="featureText">{{ign}}</p>
-                <p class="featureText">{{profile}}</p>
-                <p class="featureText" style="margin-left:80px">
-                    <button class="featureIcon" id="feature_{{ign}}"><i style="color:white" class="fas fa-{{icon}}"></i>
-                    </button>
-                </p>
-            </div>
+            {% endfor %}
         </div>
-    </a>
-    <script>
-        tippy('#feature_{{ign}}', {
-            content: "{{role}}",
-            placement: 'right',
-            trigger: 'mouseenter',
-            arrow: false,
-            offset: [0, 0],
-        });
-    </script>
 
-    {% endfor %}
+    </div>
 </div>
+</body>
 {% endblock %}

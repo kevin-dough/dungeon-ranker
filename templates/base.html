@@ -30,7 +30,7 @@
     if(screen.width>=2000) {document.write("<style>body{zoom:70%;}</style>");}
 </script>
 <!-- base file for html; includes navigation bar and links to bootstrap, css, favicon, etc. -->
-    <nav class="nav navbar navbar-expand-md" style="position:fixed;min-width:100%;overflow:hidden;background-color: #444444;">
+    <nav class="nav navbar navbar-expand-md" style="position:fixed;min-width:100%;overflow:hidden;background-color: #444444;z-index:1000">
         <div class="mx-auto order-0" style="padding-top:0px">
             <a class="navbarTitle navbar-brand mx-auto py-0" href="/">
                 <img style="margin-right:10px" src="/static/images/s+.png" width="8%" height="8%" class="d-inline-block align-top" alt="">
@@ -58,9 +58,6 @@
         </button>
     </nav>
 
-
-
-<div style="padding-top:8%"></div>
 
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://unpkg.com/tippy.js@6"></script>
