@@ -26,5 +26,14 @@ def mineescape():
     info = {"ign": ign, "profile": profile, "icon": icon, "uuid":uuid, "role": role}
     return info
 
+def rolickstir():
+    ign = "ROLICKSTIR"
+    profile = "Pomegranate"
+    icon = "user-friends"
+    uuid = "433e52a0-5392-404d-8631-c649cd652c96"
+    role = "Friend"
+    info = {"ign": ign, "profile": profile, "icon": icon, "uuid":uuid, "role": role}
+    return info
+
 def featuredata():
-    return [crazyudon(), sea7wa(), mineescape()]
+    return [crazyudon(), sea7wa(), mineescape(), rolickstir()]

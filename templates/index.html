@@ -3,9 +3,9 @@
 {% block index %}
 <body style="background-image: url('/static/images/backgrounds/background_{{ range(1, 8) | random }}.png');background-position:top 65px center;background-repeat: no-repeat;">
 <div class="row justify-content-center" style="overflow:hidden; max-width:100%; padding-top:8%">
-    <div class="indexBox">
+    <div class="indexBox" style="width:470px">
         <div>
-        <div style="padding-left:35%;padding-top:5%">
+        <div style="padding-left:55px;padding-top:5%">
             <form method="post">
                 <div class="row">
                     <p><input style="line-height:40px" class="searchBar" size="30" type="text" name="username" placeholder="username" required></p>
@@ -13,7 +13,7 @@
                 </div>
             </form>
         </div>
-        <div class="row" style="padding-left:7.5%; margin-top: 50px; width:1000px;overflow:hidden;overflow-wrap: break-word;">
+        <div class="row" style="padding-left:7.5%; margin-top: 50px; width:500px;overflow:hidden;overflow-wrap: break-word;">
             {% for data in featuredata: %}
             {% set ign = data["ign"] %}
             {% set profile = data["profile"] %}
