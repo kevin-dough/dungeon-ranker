@@ -38,7 +38,7 @@
         <div style="width:40%;padding-top:80px">
             <center>
                 <!-- the username which the user inputs is used to found the minecraft uuid which is used to find player skin -->
-                <img style="padding-top:25px" src="https://visage.surgeplay.com/full/{{uuid}}" width="50%"
+                <img style="padding-top:25px" src="https://visage.surgeplay.com/full/{{uuid}}" width="75%"
                      height="100%">
             </center>
         </div>
@@ -48,7 +48,8 @@
                 <p style="padding-top:40px" class="scoreBoxTitle">catacombs: &nbsp;<span class="scoreBoxText">{{catalvl}}</span>
                 </p>
                 <p class="scoreBoxTitle">secrets: &nbsp;<span class="scoreBoxText">{{secrets}}</span></p>
-                <p class="scoreBoxTitle">weight: &nbsp;<span class="scoreBoxText">{{weight}}</span></p>
+                <button style="padding-left:0;border:none;background-color:#444444;" class="scoreBoxTitle" id="weightInfo">weight: &nbsp;<span class="scoreBoxText">{{total_weight}}</span></button>
+
             </div>
 
             <div id="fsScoreBox" style="padding-top:30px;padding-left:15px;">
@@ -343,7 +344,7 @@
 
 <script>
     tippy('#guildInfo', {
-        content: "<h1 style='font-size:1.5em'><strong>Tag:</strong> {{guild.tag}}<br><strong>Level:</strong> {{guild.leve}}<br><strong>Members:</strong> {{guild.members}}<br><strong>Rank:</strong> {{guild.rank}}</div></h1>",
+        content: "<h1 style='font-size:1.5em'><strong>Tag:</strong> {{guild.tag}}<br><strong>Level:</strong> {{guild.level}}<br><strong>Members:</strong> {{guild.members}}<br><strong>Rank:</strong> {{guild.rank}}</div></h1>",
         placement: 'bottom',
         allowHTML: 'true',
         trigger: 'click focus',
@@ -355,6 +356,24 @@
 <script>
     tippy('#profilesList', {
         content: profileTemplate.innerHTML,
+        placement: 'bottom',
+        allowHTML: 'true',
+        trigger: 'click focus',
+        interactive: 'true',
+        arrow: false,
+        offset: [0,0],
+    });
+</script>
+<script>
+    tippy('#weightInfo', {
+        content: "<h1 style='font-size:1.5em'>" +
+            "<strong>Catacombs:</strong> {{catacombs_weight}} (+{{catacombs_weight_of}})<br>" +
+            "<strong>Archer:</strong> {{class_weight.archer_weight}} (+{{class_weight.archer_weight_of}})<br>" +
+            "<strong>Healer:</strong> {{class_weight.healer_weight}} (+{{class_weight.healer_weight_of}})<br>" +
+            "<strong>Mage:</strong> {{class_weight.mage_weight}} (+{{class_weight.mage_weight_of}})<br>" +
+            "<strong>Berserk:</strong> {{class_weight.berserk_weight}} (+{{class_weight.berserk_weight_of}})<br>" +
+            "<strong>Tank:</strong> {{class_weight.tank_weight}} (+{{class_weight.tank_weight_of}})<br>" +
+            "</h1>",
         placement: 'bottom',
         allowHTML: 'true',
         trigger: 'click focus',

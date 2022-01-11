@@ -79,11 +79,15 @@ def stats(username, profile):
     except:
         secrets = 0
 
-    #try to find dungeon weight through api; if unable to find set variable weight to N/A
-    try:
-        weight = round((skycryptdungeons["dungeons"]["dungeonsWeight"]), 2)
-    except:
-        weight = "N/A"
+    class_weight = {}
+    weights = skycryptprofile["profiles"][methods.lastprofile_id(username)]["data"]["weight"]["senither"]["dungeon"]
+    total_weight = round((weights["total"]), 2)
+    catacombs_weight = round((weights["dungeons"]["catacombs"]["weight"]), 2)
+    catacombs_weight_of = round((weights["dungeons"]["catacombs"]["weight_overflow"]), 2)
+
+    for i in weights["classes"]:
+        class_weight["{}_weight".format(i)] = round((weights["classes"][i]["weight"]), 2)
+        class_weight["{}_weight_of".format(i)] = round((weights["classes"][i]["weight_overflow"]), 2)
 
     #lists to fill out
     floors = [1, 2, 3, 4, 5, 6, 7]
@@ -210,7 +214,8 @@ def stats(username, profile):
         guild=guild,
         profilelist=profilelist,
 
-        catalvl=catalvl, secrets=secrets, weight=weight,
+        catalvl=catalvl, secrets=secrets, total_weight=total_weight,
+        catacombs_weight=catacombs_weight, catacombs_weight_of=catacombs_weight_of, class_weight=class_weight,
         secretsscore = secretsscore, bonus=bonus, catalvlscore=catalvlscore, total=total,
         scoreimage=getscoreimage(total),
         sf1min=mins[0], sf1sec=secs[0], spf1min=mins[7], spf1sec=secs[7],
