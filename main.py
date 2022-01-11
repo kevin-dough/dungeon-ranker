@@ -243,10 +243,6 @@ def stats(username, profile):
         f7completions=completions[6], m7completions=completions[13]
     )
 
-@app.route("/info")
-def info():
-    return render_template("info.html")
-
 @app.route("/about")
 def about():
     #uses lists and definitions from aboutdata.py file to display data on webpage
