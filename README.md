@@ -27,6 +27,16 @@ To switch between S and S+ and also between catacombs and master mode catacombs,
 
 <img src="/static/images/switching_modes.png">
 
+### Guild Information
+Clicking the name of the guild next to the profile name will show more information about the guild.
+
+<img src="/static/images/guild_info.png">
+
+### Weight Information
+You can click on the word `weight` to view the individual weights for each class and catacombs level weight. Weight calculations done by Senither.
+
+<img src="/static/images/weight_info.png">
+
 ### Calculating the Score
 The score given is on the right box in the stats page.
 
